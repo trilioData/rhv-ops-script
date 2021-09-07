@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-config-file
+data:
+  vault.conf: |
+    ####################
+    # vault.conf #
+    ####################
+    [DEFAULT]
+    #vault_s3_auth_version =
+    vault_s3_endpoint_url = xxxxx
+    #vault_s3_signature_version =
+    vault_s3_ssl_cert =
+    vault_s3_ssl = True
+    vault_s3_access_key_id = AKIAIWV6KUOHBMLUQ46A
+    vault_s3_secret_access_key = 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
+    vault_s3_region_name = us-east-2
+    vault_s3_bucket = shyamtvault
+    vault_storage_type = s3
+    vault_data_directory_old = /var/triliovault
+    vault_data_directory = /var/triliovault-mounts
+    log_file = /var/log/tvault-object-store/tvault-object-store.log
+    debug = False
+    verbose = True
+

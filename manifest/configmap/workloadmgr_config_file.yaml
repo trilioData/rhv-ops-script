@@ -1,0 +1,123 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workloadmgr-config-file
+data:
+  workloadmgr.conf: |
+    ####################
+    # workloadmgr.conf sample #
+    ####################
+
+    [DEFAULT]
+    log_dir = /var/log/workloadmgr
+    use_syslog = False
+    use_stderr = False
+    default_production_availability_zone = None
+    default_tvault_availability_zone = tvault_az
+    glance_images_path = /opt/stack/data/nova/instances/_base
+    keystone_endpoint_url = http://144.217.76.46:35357
+    auditlog_admin_user = admin
+    vault_swift_url_template = http://192.168.1.50:8080/v1/AUTH_%(project_id)s
+    vault_swift_auth_version = KEYSTONE_V2
+    vault_swift_auth_url = http://192.168.2.202:5000/v2.0
+    vault_swift_password = 52T8FVYZJse
+    vault_swift_username = admin
+    vault_swift_tenant = admin
+    vault_swift_domain_id = default
+    vault_storage_das_device = none
+    vault_storage_nfs_export = 144.217.72.33:/mnt/tvm45_500g
+    vault_storage_nfs_options = nolock,soft,timeo=180,intr
+    vault_data_directory = /var/triliovault-mounts
+    vault_data_directory_old = /var/triliovault
+    vault_storage_type = nfs
+    glance_tvault_host = 192.168.1.231
+    glance_production_host = 144.217.76.46
+    neutron_tvault_url = http://192.168.1.231:9696
+    neutron_production_url = http://144.217.76.46:9696
+    cinder_production_endpoint_template = http://144.217.76.46:8776/v1/%(project_id)s
+    nova_admin_password = 762aa8399bc14feb
+    nova_admin_username = admin
+    nova_admin_auth_url = http://144.217.76.46:5000
+    nova_tvault_endpoint_template = http://192.168.1.231:8774/v2/%(project_id)s
+    nova_production_endpoint_template = http://144.217.76.46:8774/v2.1/%(project_id)s
+    neutron_admin_auth_url = http://144.217.76.46:5000
+    neutron_admin_password = 762aa8399bc14feb
+    neutron_admin_username = admin
+    neutron_admin_tenant_name = admin
+    rabbit_password = 52T8FVYZJse
+    rabbit_host = 54.39.66.34
+    rpc_backend = workloadmgr.openstack.common.rpc.impl_kombu
+    transport_url = rabbit://rabbitmq_user:Password@localhost:5672
+    compute_driver = libvirt.LibvirtDriver
+    periodic_interval =
+    state_path = /opt/stack/data/workloadmgr
+    rootwrap_config = /etc/workloadmgr/rootwrap.conf
+    api_paste_config = /etc/workloadmgr/api-paste.ini
+    sql_connection = mysql://mysql-0.mysql/workloadmgr?charset=utf8
+    verbose = True
+    debug = False
+    auth_strategy = ovirt
+    trustee_role = member
+    enable_tls = off
+    enable_ha = off
+    glance_production_api_servers = http://144.217.76.46:9292
+    domain_name = default
+    triliovault_user_domain_id = default
+    cloud_unique_id = 92cd982957ef474ba29d7176c6593dbf
+    region_name_for_services = RegionOne
+    keystone_auth_version = 3
+    glance_api_version = 2
+    global_job_scheduler_override = False
+
+    ssl_cert_file =
+    ssl_key_file =
+
+    [keystone_authtoken]
+    admin_tenant_name = services
+    signing_dir = /var/cache/workloadmgr
+    cafile = /opt/stack/data/ca-bundle.pem
+    auth_uri = http://144.217.76.46:5000
+    auth_url = http://144.217.76.46:35357
+    project_domain_id = default
+    user_domain_id = default
+    password = 52T8FVYZJse
+    username = triliovault
+    admin_password = 52T8FVYZJse
+    admin_user = triliovault
+    auth_plugin = password
+    insecure = True
+
+    [ovirt_authtoken]
+    admin_tenant_name = services
+    signing_dir = /var/cache/workloadmgr
+    cafile = /opt/stack/data/ca-bundle.pem
+    #auth_uri = http://144.217.76.46:5000
+    rhv_auth_url = https://167.114.167.225/ovirt-engine
+    project_domain_id = default
+    user_domain_id = default
+    rhv_password = password
+    rhv_username = admin@internal
+    admin_password = 52T8FVYZJse
+    admin_user = triliovault
+    auth_plugin = password
+    insecure = True
+
+    [cors]
+    allowed_origin=https://167.114.167.225/ovirt-engine/api
+    allow_methods=GET,POST,PUT,DELETE
+    allow_headers=X-Auth-Project-Id,X-OvirtAuth-User,X-OvirtAuth-Password,X-OvirtAuth-Token
+    expose_headers=X-OvirtAuth-Token
+
+
+    [clients]
+    endpoint_type = publicURL
+
+    [vmware]
+    cluster_name = td-sea-clu01
+    host_password = password
+    host_username = administrator@vsphere.local
+    host_ip = 192.168.2.211
+
+    [compute]
+    hosts = {}
+
