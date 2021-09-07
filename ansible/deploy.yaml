@@ -1,0 +1,88 @@
+---
+- name: TVM Deployment
+  hosts: localhost
+  tasks:
+  - name: create Trilio namespace
+    command: kubectl create ns trilio
+    ignore_errors: True
+
+  - name: create Secret to pull images
+    command: kubectl create -n trilio secret docker-registry regcred-trilio --docker-server=https://index.docker.io/v1/ --docker-username=trilioauto --docker-password=TrilioPassword1! --docker-email=redhat.support@trilio.io
+    ignore_errors: True
+
+  - name: create tvault_config_file configmap 
+    command: kubectl apply -f /opt/manifest/configmap/tvault_config_file.yaml -n trilio
+
+  - name: create  vault configmap
+    command: kubectl apply -f /opt/manifest/configmap/vault.yaml -n trilio
+
+  - name: create  tvr-secrets configmap
+    command: kubectl apply -f /opt/manifest/configmap/tvr-secret.yaml -n trilio
+        
+  - name: create workloadmgr_config_file configmap
+    command: kubectl apply -f /opt/manifest/configmap/workloadmgr_config_file.yaml -n trilio
+
+  - name:  create service account and rbac
+    command: kubectl apply -f /opt/manifest/service-account/rbac.yaml -n trilio
+        
+  - name: Add Metallb helm repo
+    command: helm repo add metallb https://metallb.github.io/metallb
+
+  - name: Install Metallb 
+    command: helm install metallb metallb/metallb -f /opt/manifest/ingress/values.yaml
+
+  - pause:
+      minutes: 1
+
+  - name: Add ingress helm repo
+    command: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+  - name: Install Ingress
+    command: helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.0.1
+
+  - name: deploy Rhvconfigurator
+    command: kubectl apply -f /opt/manifest/rhvconfigurator.yaml -n trilio
+
+  - name: deploy config-api
+    command:   kubectl apply -f /opt/manifest/config-api.yaml -n trilio
+ 
+  - name: deploy wlm-api
+    command:  kubectl apply -f /opt/manifest/wlm/wlm-api.yaml -n trilio
+
+  - name: deploy wlm-scheduler
+    command:  kubectl apply -f /opt/manifest/wlm/wlm-scheduler.yaml -n trilio
+
+  - name: deploy wlm-workloads
+    command:  kubectl apply -f /opt/manifest/wlm/wlm-workloads.yaml -n trilio
+ 
+  - name: create storage class
+    command:  kubectl apply -f /opt/manifest/storageclass/localpath.yaml
+
+  - pause:
+      minutes: 1
+
+  - name: create configmap for rabbitmq
+    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-configmap.yaml -n trilio
+
+  - name: create secrets for rabitmq
+    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-secret.yaml -n trilio
+
+  - name: create rbac for rabbitmq
+    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-rbac.yaml -n trilio
+
+  - name: deploy rabbitmq
+    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-statefulset.yaml -n trilio
+
+  - name: create configmap for mysql
+    command: kubectl apply -f /opt/manifest/mysql/mysql-configmap.yaml -n trilio
+
+  - name: create services for mysql
+    command: kubectl apply -f /opt/manifest/mysql/mysql-services.yaml -n trilio
+
+  - name: deploy mysql
+    command:  kubectl apply -f /opt/manifest/mysql/mysql-statefulset.yaml -n trilio
+  
+  - name: create ingress rule
+    command: kubectl apply -f /opt/manifest/ingress/ingressrule.yaml -n trilio
+
+
