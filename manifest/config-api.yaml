@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-api
+spec:
+  ports:
+    - name: http
+      port: 5000
+    - name: websocket
+      port: 8882
+  selector:
+    app: config-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-api
+spec:
+  selector:
+    matchLabels:
+      app: config-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: config-api
+    spec:
+      serviceAccountName: internal-kubectl
+      containers:
+      - image: trilio/tvr-configurator-api:2.8
+        name: config-api
+        command: [ "tail" ]
+        args: [ "-f", "/dev/null" ]
+        #command: ["/home/rhv/myansible/bin/python3", "/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
+        ports:
+        - containerPort: 5000
+          name: config-api
+        - containerPort: 8882
+          name: websocket
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: tvault-config
+            mountPath: /etc/tvault-config
+            readOnly: false
+      volumes:
+        - name: tvault-config
+          configMap:
+            name: tvault-config-file
+      imagePullSecrets:
+        - name: regcred-trilio
+
