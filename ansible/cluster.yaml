@@ -1,0 +1,122 @@
+---
+- name: K8s Single Node Cluster Setup
+  hosts: localhost
+  tasks:
+  # Install Docker Packages
+
+  - name: Install the yum-utils package
+    yum: 
+      name: yum-utils
+      update_cache: yes
+      state: present
+
+  - name: Add Docker Repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+
+
+  - name: Install Docker engine and containerd
+    yum: 
+      name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+      update_cache: yes
+      state: present
+
+  - name: Start Docker
+    service: 
+      name: docker 
+      enabled: yes 
+      state: restarted 
+
+
+  - name: update cgroup driver as systemd
+    copy: 
+      dest: /etc/docker/daemon.json
+      content: |
+        { "exec-opts": ["native.cgroupdriver=systemd"] } 
+
+  
+
+  #  Install Kubernetes Packages 
+
+  - name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+    shell: swapoff -a
+    
+
+  - name: Disable SWAP in fstab since kubernetes can't work with swap enabled (2/2)
+    shell: sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
+  - name: Add kubernetes Repo
+    copy: 
+      dest: /etc/yum.repos.d/kubernetes.repo
+      content: |
+        [kubernetes]
+        name=kubernetes
+        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+        enabled=1
+        gpgcheck=1
+        repo_gpgcheck=1
+        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        exclude=kubelet kubeadm kubectl
+
+  - name: Install kubernetes packages
+    yum:
+      name: ['kubelet', 'kubeadm', 'kubectl']
+      disable_excludes: 'kubernetes'
+      state: present
+
+
+  - name: Configure kubelet Eviction Thresholds
+    shell: echo "KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<256Mi,nodefs.available<1Gi,imagefs.available<1Gi"|sudo tee /etc/sysconfig/kubelet
+
+  - name: update kernel settings
+    become: yes
+    sysctl:
+      name: net.bridge.bridge-nf-call-iptables
+      value: 1
+      sysctl_set: yes
+      state: present
+      reload: yes
+
+  - name: update kernel settings
+    become: yes
+    sysctl:
+      name: net.bridge.bridge-nf-call-ip6tables
+      value: 1
+      sysctl_set: yes
+      state: present
+      reload: yes
+
+  - name: restart kubelet
+    service: 
+      name: kubelet 
+      enabled: yes 
+      state: restarted
+
+  - name: restart docker
+    service:
+      name: docker
+      state: restarted
+
+  - name: Initialize kubeadm 
+    command: kubeadm init --upload-certs
+    async: 900
+    poll: 5
+
+
+  - name: Setup kubeconfig 
+    command: "{{ item }}"
+    with_items:
+      - mkdir -p $HOME/.kube
+      - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
+      - chown $USER:$USER $HOME/.kube/config
+  
+  - name: Install calico pod network
+    command: kubectl apply -f https://docs.projectcalico.org/archive/v3.17/manifests/calico.yaml
+
+  - name: Untained Master node
+    command: kubectl taint nodes --all node-role.kubernetes.io/master- 
+
+
+
+
