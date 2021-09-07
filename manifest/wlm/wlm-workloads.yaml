@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+  name: wlm-workloads
+spec:
+  selector:
+    matchLabels:
+      app: wlm-workloads
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: wlm-workloads
+    spec:
+      containers:
+      - name: wlm-workloads
+        image: trilio/tvr-workloadmgr-api:1.7
+        command: [ "/home/rhv/myansible/bin/workloadmgr-workloads"]
+        args: ["--config-file=/etc/workloadmgr/conf/workloadmgr.conf"]
+        ports:
+        - containerPort: 8785
+          name: wlm-workloads
+        - containerPort: 8888
+          name: websocket
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: tvault-config
+          mountPath: /etc/tvault-config/conf
+          readOnly: false
+        - name: workloadmgr-config
+          mountPath: /etc/workloadmgr/conf
+      volumes:
+        - name: tvault-config
+          configMap:
+            name: tvault-config-file
+        - name: workloadmgr-config
+          configMap:
+            name: workloadmgr-config-file
+      imagePullSecrets:
+        - name: regcred-trilio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wlm-workloads
+spec:
+  ports:
+  - name: http
+    port: 8785
+  - name: websocket
+    port: 8888
+  selector:
+    app: wlm-workloads
+  type: ClusterIP
+
