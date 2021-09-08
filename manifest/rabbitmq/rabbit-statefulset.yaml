@@ -35,6 +35,16 @@ spec:
         - containerPort: 5672
           name: amqp
         env:
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              name: rabbit-secret
+              key: pass
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            secretKeyRef:
+              name: rabbit-secret
+              key: user
         - name: RABBIT_POD_NAME
           valueFrom:
             fieldRef:
