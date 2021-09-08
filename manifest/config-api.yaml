@@ -10,6 +10,7 @@ spec:
       port: 8882
   selector:
     app: config-api
+  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,9 +31,8 @@ spec:
       containers:
       - image: trilio/tvr-configurator-api:2.8
         name: config-api
-        command: [ "tail" ]
-        args: [ "-f", "/dev/null" ]
-        #command: ["/home/rhv/myansible/bin/python3", "/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
+        command: [ "/home/rhv/myansible/bin/python3"]
+        args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
         ports:
         - containerPort: 5000
           name: config-api
@@ -44,10 +44,14 @@ spec:
           - name: tvault-config
             mountPath: /etc/tvault-config
             readOnly: false
+          - name: tvr-secret
+            mountPath: /opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/conf/tvr-secret
       volumes:
         - name: tvault-config
           configMap:
             name: tvault-config-file
+        - name: tvr-secret
+          secret:
+            secretName: tvr-secret
       imagePullSecrets:
         - name: regcred-trilio
-
