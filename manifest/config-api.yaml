@@ -10,7 +10,7 @@ spec:
       port: 8882
   selector:
     app: config-api
-  clusterIP: None
+
 ---
 apiVersion: apps/v1
 kind: Deployment
