@@ -14,14 +14,11 @@ spec:
     spec:
       containers:
       - name: wlm-scheduler
-        image: trilio/tvr-workloadmgr-api:1.7
-        command: [ "/home/rhv/myansible/bin/workloadmgr-scheduler" ]
-        args: [ "--config-file=/etc/workloadmgr/conf/workloadmgr.conf" ]
-        ports:
-        - containerPort: 8780
-          name: wlm-scheduler
-        - containerPort: 8888
-          name: websocket
+        image:  trilio/tvr-workloadmgr-api:3.3
+        #command: [ "/home/rhv/myansible/bin/workloadmgr-scheduler" ]
+        #args: [ "--config-file=/etc/workloadmgr/conf/workloadmgr.conf" ]
+        command: [ "/bin/sh","-c" ]
+        args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
           privileged: true
         volumeMounts:
@@ -60,4 +57,3 @@ spec:
   selector:
     app: wlm-scheduler
   type: ClusterIP
-
