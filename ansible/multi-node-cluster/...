@@ -1,8 +1,0 @@
----
-- name: K8s cluster Setup
-  hosts:
-    - masters
-  vars:
-    - virtual_ip: 54.39.66.37
-  roles:
-    - k8s-cluster
