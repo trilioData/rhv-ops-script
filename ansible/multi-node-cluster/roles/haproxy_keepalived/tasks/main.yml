@@ -1,0 +1,48 @@
+---
+
+- name: installing HaProxy
+  yum: 
+    name: ['haproxy', 'keepalived', 'psmisc']
+    update_cache: yes
+    state: present
+
+
+- name: Copy HAProxy configuration in place.
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    validate: haproxy -f %s -c -q
+
+
+- name: host’s kernel needs to be configured to allow a process to bind to a non-local IP address
+  sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+  notify: 
+    - restart haproxy
+    - restart keepalived
+    
+    
+- name: Setup keepalived configuration for master1.
+  template:
+    src: keepalived.node1.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: inventory_hostname == "mnode1"
+
+- name: Setup keepalived configuration for master2.
+  template:
+    src: keepalived.node2.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: inventory_hostname == "mnode2" 
+  
+
+- name: Setup keepalived configuration for master3.
+  template:
+    src: keepalived.node3.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: inventory_hostname == "mnode3" 
+

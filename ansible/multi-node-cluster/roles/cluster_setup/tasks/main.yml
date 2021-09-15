@@ -1,0 +1,64 @@
+---
+
+- name: restart services
+  shell: |
+        systemctl restart docker
+
+- name: k8s cluster initialization
+  block:
+    - name: Initialize the Kubernetes cluster using kubeadm at master-node1
+      command: kubeadm init --control-plane-endpoint {{ virtual_ip }}:6446 --upload-certs
+      async: 900
+      poll: 5
+      
+    - name: Setup kubeconfig 
+      command: "{{ item }}"
+      with_items:
+        - mkdir -p $HOME/.kube
+        - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
+        - chown $USER:$USER $HOME/.kube/config
+      
+    - name: Install calico pod network
+      command: kubectl apply -f https://docs.projectcalico.org/archive/v3.17/manifests/calico.yaml   
+
+    - name: Create a new certificate key
+      become: true
+      command: kubeadm init phase upload-certs --upload-certs
+      register: join_certificate_key
+
+    - name: Generate master join command
+      command: kubeadm token create --print-join-command --certificate-key "{{ join_certificate_key.stdout_lines[2] }}"
+      register: join_as_master_command
+
+    - name: Copy master join command to local file
+      local_action: copy content="{{ join_as_master_command.stdout_lines[0] }}" dest="/tmp/join-master-command"
+  when: inventory_hostname == "master-node1"
+
+
+- name: Join Cluster
+  block:
+    - name: Copy k8s_token_file_master 
+      copy: 
+        src: "/tmp/join-master-command"
+        dest: "/tmp/join-master-command.sh"
+        mode: "0750"
+      
+    - name:  Join the control plane to cluster 
+      become: true
+      command: sh /tmp/join-master-command.sh
+      args:
+        creates: "{{ k8s_kubelet_config }}"
+      async: 900
+      poll: 5
+
+    - name: Setup kubeconfig on joining node
+      command: "{{ item }}"
+      with_items:
+        - mkdir -p $HOME/.kube
+        - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
+        - chown $USER:$USER $HOME/.kube/config
+  when: inventory_hostname != "master-node1"
+
+- name: Untained Master node
+  command: kubectl taint nodes --all node-role.kubernetes.io/master-
+  when: inventory_hostname == "master-node1"

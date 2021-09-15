@@ -1,0 +1,28 @@
+[node1]
+master-node1 ansible_ssh_host=142.44.219.120 ansible_connection=local
+
+[node2]
+master-node2 ansible_ssh_host=142.44.219.121
+
+[node3]
+master-node3 ansible_ssh_host=142.44.219.122
+
+[masters]
+master-node1
+master-node2
+master-node3
+
+
+[workers]
+
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python
+ansible_ssh_pass=52T8FVYZJse
+ansible_ssh_user=root
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+
+
+
+

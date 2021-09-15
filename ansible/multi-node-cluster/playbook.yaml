@@ -1,0 +1,17 @@
+---
+- name: Install packages
+  hosts:
+    - masters
+  vars:
+    - virtual_ip: 54.39.66.37
+  roles:
+    - prerequisite
+    - haproxy_keepalived
+    - docker_kubernetes
+
+- name: Setup k8s multimaster cluster
+  hosts: masters
+  vars: 
+    - virtual_ip: 54.39.66.37
+  roles:
+    - cluster_setup

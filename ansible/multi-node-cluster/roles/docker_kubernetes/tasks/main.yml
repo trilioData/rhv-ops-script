@@ -1,0 +1,92 @@
+---
+
+# Install Docker Packages
+
+- name: Install the yum-utils package
+  yum: 
+    name: yum-utils
+    update_cache: yes
+    state: present
+
+- name: Add Docker Repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+
+- name: Install Docker engine and containerd
+  yum: 
+    name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+    update_cache: yes
+    state: present
+
+- name: Start Docker
+  service: 
+    name: docker 
+    enabled: yes 
+    state: restarted
+
+- name: update cgroup driver as systemd
+  copy: 
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
+ 
+
+#  Install Kubernetes Packages 
+
+- name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
+  shell: |
+    swapoff -a
+  
+
+- name: Disable SWAP in fstab since kubernetes can't work with swap enabled (2/2)
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+  
+- name: Add kubernetes Repo
+  copy: 
+    src: k8s.repo
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: Install kubernetes packages
+  yum:
+   name: ['kubelet', 'kubeadm', 'kubectl']
+   disable_excludes: 'kubernetes'
+   state: present
+
+
+- name: Configure kubelet Eviction Thresholds
+  command: echo "KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<256Mi,nodefs.available<1Gi,imagefs.available<1Gi"|sudo tee /etc/sysconfig/kubelet
+
+
+- name: restart kubelet
+  service: 
+    name: kubelet 
+    state: restarted
+
+
+- name: update kernel settings
+  become: yes
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: update kernel settings
+  become: yes
+  sysctl:
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+  notify:
+    - Restart Kubelet
+    - Restart Docker
+
+
