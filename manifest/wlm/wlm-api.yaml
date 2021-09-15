@@ -14,9 +14,14 @@ spec:
     spec:
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:1.7
-        command: [ "/home/rhv/myansible/bin/gunicorn"]
-        args: ["--timeout=600", "--threads=5" ,"workloadmgr.app:app", "--bind=0.0.0.0:8781"]
+        image: trilio/tvr-workloadmgr-api:3.4
+        command:
+          - bash
+          - "-c"
+          - |
+            set -ex
+            /home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py
+            su vdsm bash -c '/home/rhv/myansible/bin/gunicorn --timeout=600 --bind 0.0.0.0:8781 --threads=5 "workloadmgr.app:app"'
         workingDir: /var/run
         ports:
         - containerPort: 8781
@@ -54,4 +59,3 @@ spec:
   selector:
     app: wlm-api
   type: ClusterIP
-
