@@ -16,14 +16,11 @@ spec:
     spec:
       containers:
       - name: wlm-workloads
-        image: trilio/tvr-workloadmgr-api:1.7
-        command: [ "/home/rhv/myansible/bin/workloadmgr-workloads"]
-        args: ["--config-file=/etc/workloadmgr/conf/workloadmgr.conf"]
-        ports:
-        - containerPort: 8785
-          name: wlm-workloads
-        - containerPort: 8888
-          name: websocket
+        image:  trilio/tvr-workloadmgr-api:3.3
+        #command: [ "/home/rhv/myansible/bin/workloadmgr-workloads"]
+        #args: ["--config-file=/etc/workloadmgr/conf/workloadmgr.conf"]
+        command: [ "/bin/sh","-c" ]
+        args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-workloads --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
           privileged: true
         volumeMounts:
@@ -32,6 +29,9 @@ spec:
           readOnly: false
         - name: workloadmgr-config
           mountPath: /etc/workloadmgr/conf
+        - name: vault-config
+          mountPath: /etc/workloadmgr/vault.conf
+          subPath: vault.conf
       volumes:
         - name: tvault-config
           configMap:
@@ -39,6 +39,9 @@ spec:
         - name: workloadmgr-config
           configMap:
             name: workloadmgr-config-file
+        - name: vault-config
+          configMap:
+            name: vault-config-file
       imagePullSecrets:
         - name: regcred-trilio
 ---
@@ -55,4 +58,3 @@ spec:
   selector:
     app: wlm-workloads
   type: ClusterIP
-
