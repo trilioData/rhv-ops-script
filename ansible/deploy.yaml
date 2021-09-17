@@ -29,7 +29,7 @@
     command: helm repo add metallb https://metallb.github.io/metallb
 
   - name: Install Metallb 
-    command: helm install metallb metallb/metallb -f /opt/manifest/ingress/values.yaml
+    command: helm upgrade --install metallb metallb/metallb -f /opt/manifest/ingress/values.yaml
 
   - pause:
       minutes: 1
@@ -38,7 +38,7 @@
     command: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
   - name: Install Ingress
-    command: helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.0.1
+    command: helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 4.0.1
 
   - name: deploy Rhvconfigurator
     command: kubectl apply -f /opt/manifest/rhvconfigurator.yaml -n trilio
