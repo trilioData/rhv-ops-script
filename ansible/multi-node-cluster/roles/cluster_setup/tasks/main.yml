@@ -11,6 +11,8 @@
       async: 900
       poll: 5
       
+    - import_tasks: update_etcd.yaml
+      
     - name: Setup kubeconfig 
       command: "{{ item }}"
       with_items:
@@ -50,6 +52,8 @@
         creates: "{{ k8s_kubelet_config }}"
       async: 900
       poll: 5
+      
+    - import_tasks: update_etcd.yaml
 
     - name: Setup kubeconfig on joining node
       command: "{{ item }}"
