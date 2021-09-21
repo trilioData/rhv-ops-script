@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:3.4
+        image: trilio/tvr-workloadmgr-api:3.6
         command:
           - bash
           - "-c"

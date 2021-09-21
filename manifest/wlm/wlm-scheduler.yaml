@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wlm-scheduler
-        image:  trilio/tvr-workloadmgr-api:3.3
+        image:  trilio/tvr-workloadmgr-api:3.6
         #command: [ "/home/rhv/myansible/bin/workloadmgr-scheduler" ]
         #args: [ "--config-file=/etc/workloadmgr/conf/workloadmgr.conf" ]
         command: [ "/bin/sh","-c" ]
