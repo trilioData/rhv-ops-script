@@ -1,0 +1,17 @@
+- name: update heartbeat interval and election timeout for etcd
+  lineinfile:
+    path: /etc/kubernetes/manifests/etcd.yaml
+    insertafter: '^    - --trusted-ca-file'
+    line: |
+           - --heartbeat-interval=7000
+           - --election-timeout=35000
+    state: present
+- name: set the indentation
+  replace:
+    path: /etc/kubernetes/manifests/etcd.yaml
+    regexp: '^- --heartbeat-interval=7000'
+    replace: '    - --heartbeat-interval=7000'        
+- replace:
+    path: /etc/kubernetes/manifests/etcd.yaml
+    regexp: '^- --election-timeout=35000'
+    replace: '    - --election-timeout=35000'
