@@ -31,18 +31,18 @@
   template:
     src: keepalived.node1.conf.j2
     dest: /etc/keepalived/keepalived.conf
-  when: inventory_hostname == "mnode1"
+  when: inventory_hostname == "master-node1"
 
 - name: Setup keepalived configuration for master2.
   template:
     src: keepalived.node2.conf.j2
     dest: /etc/keepalived/keepalived.conf
-  when: inventory_hostname == "mnode2" 
+  when: inventory_hostname == "master-node2" 
   
 
 - name: Setup keepalived configuration for master3.
   template:
     src: keepalived.node3.conf.j2
     dest: /etc/keepalived/keepalived.conf
-  when: inventory_hostname == "mnode3" 
+  when: inventory_hostname == "master-node3" 
 
