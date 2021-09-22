@@ -1,11 +1,11 @@
 [node1]
-master-node1 ansible_ssh_host=142.44.219.120 ansible_connection=local
+master-node1 ansible_ssh_host=142.44.219.120 ansible_connection=local ansible_ssh_pass=52T8FVYZJse
 
 [node2]
-master-node2 ansible_ssh_host=142.44.219.121
+master-node2 ansible_ssh_host=142.44.219.121 ansible_ssh_pass=52T8FVYZJse
 
 [node3]
-master-node3 ansible_ssh_host=142.44.219.122
+master-node3 ansible_ssh_host=142.44.219.122 ansible_ssh_pass=52T8FVYZJse
 
 [masters]
 master-node1
@@ -18,11 +18,6 @@ master-node3
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python
-ansible_ssh_pass=52T8FVYZJse
 ansible_ssh_user=root
+ansible_private_key_file=~/.ssh/id_rsa
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
-
-
-
-
-
