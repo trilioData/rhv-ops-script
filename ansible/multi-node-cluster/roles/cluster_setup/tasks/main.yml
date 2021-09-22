@@ -21,9 +21,6 @@
     - name: Install calico pod network
       command: kubectl apply -f https://docs.projectcalico.org/archive/v3.17/manifests/calico.yaml   
     
-    - name: Untained Master node
-      command: kubectl taint nodes --all node-role.kubernetes.io/master-
-    
     - name: Create a new certificate key
       become: true
       command: kubeadm init phase upload-certs --upload-certs
@@ -61,5 +58,9 @@
         - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
         - chown $USER:$USER $HOME/.kube/config
   when: inventory_hostname != "master-node1"
+  
+- name: Untained Master node
+  command: kubectl taint nodes --all node-role.kubernetes.io/master-
+  when: inventory_hostname == "master-node1"
 
 - import_tasks: update_etcd.yaml
