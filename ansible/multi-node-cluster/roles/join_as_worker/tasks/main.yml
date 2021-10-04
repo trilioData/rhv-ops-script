@@ -1,0 +1,27 @@
+---
+
+- name: restart services
+  shell: |
+        systemctl restart docker
+
+
+- name: Copy k8s_token_file_worker
+  copy: 
+    src: "/tmp/join-worker-command"
+    dest: "/tmp/join-worker-command.sh"
+    mode: "0750"
+  
+- name:  Join the worker plane to cluster 
+  become: true
+  command: sh /tmp/join-worker-command.sh
+  args:
+    creates: "{{ k8s_kubelet_config }}"
+  async: 900
+  poll: 5
+
+- name: Setup kubeconfig on joining node
+  command: "{{ item }}"
+  with_items:
+    - mkdir -p $HOME/.kube
+    - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
+    - chown $USER:$USER $HOME/.kube/config

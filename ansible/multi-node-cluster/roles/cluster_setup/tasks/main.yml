@@ -26,13 +26,22 @@
       command: kubeadm init phase upload-certs --upload-certs
       register: join_certificate_key
 
+    - name: Generate worker join command 
+      command: kubeadm token create --print-join-command
+      register: join_as_worker_command
+
     - name: Generate master join command
       command: kubeadm token create --print-join-command --certificate-key "{{ join_certificate_key.stdout_lines[2] }}"
       register: join_as_master_command
 
     - name: Copy master join command to local file
       local_action: copy content="{{ join_as_master_command.stdout_lines[0] }}" dest="/tmp/join-master-command"
+
+    - name: Copy worker join command to local file
+      local_action: copy content="{{ join_as_worker_command.stdout_lines[0] }}" dest="/tmp/join-worker-command"
   when: inventory_hostname == "master-node1"
+
+
 
 
 - name: Join Cluster

@@ -15,3 +15,10 @@
     - virtual_ip: 54.39.66.37
   roles:
     - cluster_setup
+
+- name: Setup worker node
+  hosts: workers
+  roles:
+    - prerequisite
+    - docker_kubernetes
+    - join_as_worker

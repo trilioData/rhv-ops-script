@@ -26,6 +26,9 @@
 
 - name: Update /etc/hosts from inventory
   lineinfile: dest=/etc/hosts regexp='.*{{item}}$' line='{{hostvars[item].ansible_default_ipv4.address}} {{item}}' state=present
-  with_items: '{{groups.masters}}'
+  with_items: 
+     - '{{groups.masters}}'
+     - '{{groups.workers}}'
+
   tags:
     - hosts

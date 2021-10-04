@@ -1,0 +1,3 @@
+---
+# defaults file for join_as_worker
+k8s_kubelet_config: "/etc/kubernetes/kubelet.conf"
