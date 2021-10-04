@@ -19,9 +19,3 @@
   async: 900
   poll: 5
 
-- name: Setup kubeconfig on joining node
-  command: "{{ item }}"
-  with_items:
-    - mkdir -p $HOME/.kube
-    - cp  /etc/kubernetes/admin.conf $HOME/.kube/config
-    - chown $USER:$USER $HOME/.kube/config
