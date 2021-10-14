@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: tvault-config-file
 data:
+  timezone: UTC
   tvault-config.conf: |
     [DEFAULT]
     config_status = not_configured
