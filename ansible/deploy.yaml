@@ -61,26 +61,11 @@
   - pause:
       minutes: 1
 
-  - name: create configmap for rabbitmq
-    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-configmap.yaml -n trilio
-
-  - name: create secrets for rabitmq
-    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-secret.yaml -n trilio
-
-  - name: create rbac for rabbitmq
-    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-rbac.yaml -n trilio
-
   - name: deploy rabbitmq
-    command: kubectl apply -f /opt/manifest/rabbitmq/rabbit-statefulset.yaml -n trilio
-
-  - name: create configmap for mysql
-    command: kubectl apply -f /opt/manifest/mysql/mysql-configmap.yaml -n trilio
-
-  - name: create services for mysql
-    command: kubectl apply -f /opt/manifest/mysql/mysql-services.yaml -n trilio
+    command: kubectl apply -f /opt/manifest/rabbitmq/ -n trilio
 
   - name: deploy mysql
-    command:  kubectl apply -f /opt/manifest/mysql/mysql-statefulset.yaml -n trilio
+    command: kubectl apply -f /opt/manifest/mysql/ -n trilio
   
   - name: create ingress rule
     command: kubectl apply -f /opt/manifest/ingress/ingressrule.yaml -n trilio
