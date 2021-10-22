@@ -8,6 +8,8 @@
     - prerequisite
     - haproxy_keepalived
     - docker_kubernetes
+  tags: 
+  - configure   
 
 - name: Setup k8s multimaster cluster
   hosts: masters
@@ -15,6 +17,8 @@
     - virtual_ip: 54.39.66.37
   roles:
     - cluster_setup
+  tags: 
+  - configure   
 
 - name: Setup worker node
   hosts: workers
@@ -22,3 +26,56 @@
     - prerequisite
     - docker_kubernetes
     - join_as_worker
+  tags: 
+  - configure   
+
+
+#/etc/kubernetes/manifest
+#/var/lib/etcd
+#kubeadm reset --force
+#/var/lib/etcd
+#/opt/local-path-provisioner/
+#$HOME/.kube/config
+# uninstall kubelet since docker restart often fails 
+#Systemctl restart Docker
+- name: Cleanup Tvault deployment
+  hosts: masters,workers
+  tasks:
+  - name: Cleanup directories
+    file:
+       path: "{{ item }}"
+       state: absent
+    register: dir_cleanup_output
+    loop:
+      - /etc/kubernetes/manifest
+      - /var/lib/etcd
+      - /opt/local-path-provisioner
+      - ${HOME}/.kube/config
+    tags:
+    - cleanup
+
+
+  - name: reset kubeadm on all three nodes
+    shell: "kubeadm reset --force"
+    when: dir_cleanup_output is succeeded
+    register: reset_cluster
+    until: reset_cluster.rc == 0
+    retries: 5
+    delay: 2
+    ignore_errors: true
+    tags:
+    - cleanup
+
+  - name: uninstall kubelet from each node 
+    yum:
+       name: kubelet
+       state: absent 
+    tags:
+    - cleanup
+
+  - name: Restart Docker Service
+    when: reset_cluster is succeeded
+    shell: "systemctl restart docker"
+    register: docker_restart
+    tags: 
+    - cleanup
