@@ -46,7 +46,7 @@
     ignore_errors: True
 
   - name: create secrets for Ingress
-    shell: kubectl create secret tls tvault-ingress-tls2 --namespace trilio --key tvault.key --cert tvault.crt
+    shell: kubectl create secret tls tvault-ingress-tls --namespace trilio --key tvault.key --cert tvault.crt
     ignore_errors: True
 
   - name: Create a directory /opt/manifest/ca if it does not exist
