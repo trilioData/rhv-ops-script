@@ -21,6 +21,13 @@ spec:
         args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-workloads --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
           privileged: true
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "2Gi"
+          requests:
+            cpu: "250m"
+            memory: "1Gi"
         volumeMounts:
         - name: tvault-config
           mountPath: /etc/tvault-config/conf

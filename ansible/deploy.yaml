@@ -100,7 +100,13 @@
 
   - name: deploy mysql
     command: kubectl apply -f /opt/manifest/mysql/ -n trilio
+
+  - name: deploy metric server
+    command: kubectl apply -f /opt/manifest/metric-server/
   
+  - name: deploy hpa to wlm services
+    command: kubectl apply -f /opt/manifest/hpa/ -n trilio 
+
   - name: create ingress rule
     command: kubectl apply -f /opt/manifest/ingress/ingressrule.yaml -n trilio
 
