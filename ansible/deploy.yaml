@@ -24,6 +24,40 @@
 
   - name:  create service account and rbac
     command: kubectl apply -f /opt/manifest/service-account/rbac.yaml -n trilio
+    
+  - name: Create CA and Certs
+    shell: |
+      openssl genrsa -des3 -out CA.key -passout pass:trilio  2048 
+      openssl req -x509 -new -nodes -key CA.key -passin pass:trilio  -sha256 -days 1825 -out CA.pem -batch
+      openssl genrsa -out tvault.key 2048
+      openssl req -new -key tvault.key -out tvault.csr -batch
+      echo " 
+          authorityKeyIdentifier=keyid,issuer
+          basicConstraints=CA:FALSE
+          keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+          subjectAltName = @alt_names
+          [alt_names]
+          DNS.1 = tvault.com " > tvault.ext 
+          
+      openssl x509 -req -in tvault.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out tvault.crt -days 1825 -sha256 -extfile tvault.ext  -passin pass:trilio
+
+  - name: create secrets for CA
+    shell: kubectl create secret generic ca-certs --from-file=pem_content=CA.pem  --from-file=key_content=CA.key -n trilio
+    ignore_errors: True
+
+  - name: create secrets for Ingress
+    shell: kubectl create secret tls tvault-ingress-tls2 --namespace trilio --key tvault.key --cert tvault.crt
+    ignore_errors: True
+
+  - name: Create a directory /opt/manifest/ca if it does not exist
+    ansible.builtin.file:
+      path: /opt/manifest/ca
+      state: directory
+      mode: '0755'
+
+  - name: move certificates to /opt/manifest/ca
+    shell: |
+        sudo mv  CA.key  CA.pem  CA.srl  tvault.crt  tvault.csr  tvault.ext  tvault.key /opt/manifest/ca
         
   - name: Add Metallb helm repo
     command: helm repo add metallb https://metallb.github.io/metallb
