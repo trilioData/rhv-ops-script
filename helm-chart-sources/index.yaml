@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  helm-chart-test:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-10-22T13:08:08.439010163+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 71beb289ea6d32619b36bfc28d6d9e78cf38be6eff0d6a2f00f48fdb6bd364ac
+    name: helm-chart-test
+    type: application
+    urls:
+    - https://triliodata.github.io/rhv-ops-script/helm-chart-test-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-10-22T13:08:08.438201775+05:30"
