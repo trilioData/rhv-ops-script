@@ -2,15 +2,15 @@
 - name: K8s Single Node Cluster Setup
   hosts: localhost
   tasks:
-  - name: get server-hostname
-    shell: hostname
+  - name: set server-hostname
+    shell: hostnamectl set-hostname master-node1
     register: hostname
 
   - name: Update hostname to /etc/hosts
     lineinfile:
       dest: /etc/hosts
       regexp: '^127\.0\.0\.1[ \t]+localhost'
-      line: '127.0.0.1  {{ hostname.stdout }} localhost'
+      line: '127.0.0.1  master-node1 localhost'
       state: present
 
   # Install Docker Packages
