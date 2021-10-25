@@ -5,25 +5,6 @@
   - name: create Trilio namespace
     command: kubectl create ns trilio
     ignore_errors: True
-
-  - name: create Secret to pull images
-    command: kubectl create -n trilio secret docker-registry regcred-trilio --docker-server=https://index.docker.io/v1/ --docker-username=trilioauto --docker-password=TrilioPassword1! --docker-email=redhat.support@trilio.io
-    ignore_errors: True
-
-  - name: create tvault_config_file configmap 
-    command: kubectl apply -f /opt/manifest/configmap/tvault_config_file.yaml -n trilio
-
-  - name: create  vault configmap
-    command: kubectl apply -f /opt/manifest/configmap/vault.yaml -n trilio
-
-  - name: create  tvr-secrets configmap
-    command: kubectl apply -f /opt/manifest/configmap/tvr-secret.yaml -n trilio
-        
-  - name: create workloadmgr_config_file configmap
-    command: kubectl apply -f /opt/manifest/configmap/workloadmgr_config_file.yaml -n trilio
-
-  - name:  create service account and rbac
-    command: kubectl apply -f /opt/manifest/service-account/rbac.yaml -n trilio
     
   - name: Create CA and Certs
     shell: |
@@ -58,56 +39,20 @@
   - name: move certificates to /opt/manifest/ca
     shell: |
         sudo mv  CA.key  CA.pem  CA.srl  tvault.crt  tvault.csr  tvault.ext  tvault.key /opt/manifest/ca
+
+  - name: add trilio helm repo
+    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password password
+
+  - name: add btnami helm repo
+    command: helm repo add bitnami https://charts.bitnami.com/bitnami
+
+  - name: repo update  
+    shell: helm repo update
+
+  - name: Install triliovault RHV 
+    command: helm ugrade --install tvr nexus/triliovault-rhv  --dependency-update  -f /opt/manifest/values.yaml
+
+  - name: Install mariadb-galera
+    command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
+
         
-  - name: Add Metallb helm repo
-    command: helm repo add metallb https://metallb.github.io/metallb
-
-  - name: Install Metallb 
-    command: helm upgrade --install metallb metallb/metallb -f /opt/manifest/ingress/values.yaml
-
-  - pause:
-      minutes: 1
-
-  - name: Add ingress helm repo
-    command: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-
-  - name: Install Ingress
-    command: helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 4.0.1
-
-  - name: deploy Rhvconfigurator
-    command: kubectl apply -f /opt/manifest/rhvconfigurator.yaml -n trilio
-
-  - name: deploy config-api
-    command:   kubectl apply -f /opt/manifest/config-api.yaml -n trilio
- 
-  - name: deploy wlm-api
-    command:  kubectl apply -f /opt/manifest/wlm/wlm-api.yaml -n trilio
-
-  - name: deploy wlm-scheduler
-    command:  kubectl apply -f /opt/manifest/wlm/wlm-scheduler.yaml -n trilio
-
-  - name: deploy wlm-workloads
-    command:  kubectl apply -f /opt/manifest/wlm/wlm-workloads.yaml -n trilio
- 
-  - name: create storage class
-    command:  kubectl apply -f /opt/manifest/storageclass/localpath.yaml
-
-  - pause:
-      minutes: 1
-
-  - name: deploy rabbitmq
-    command: kubectl apply -f /opt/manifest/rabbitmq/ -n trilio
-
-  - name: deploy mysql
-    command: kubectl apply -f /opt/manifest/mysql/ -n trilio
-
-  - name: deploy metric server
-    command: kubectl apply -f /opt/manifest/metric-server/
-  
-  - name: deploy hpa to wlm services
-    command: kubectl apply -f /opt/manifest/hpa/ -n trilio 
-
-  - name: create ingress rule
-    command: kubectl apply -f /opt/manifest/ingress/ingressrule.yaml -n trilio
-
-
