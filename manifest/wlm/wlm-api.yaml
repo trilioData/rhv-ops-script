@@ -12,6 +12,7 @@ spec:
       labels:
         app: wlm-api
     spec:
+      nodename: master-node1
       serviceAccountName: internal-kubectl
       nodeName: master-node1
       containers:
