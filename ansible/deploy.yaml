@@ -50,7 +50,7 @@
     shell: helm repo update
 
   - name: Install triliovault RHV 
-    command: helm ugrade --install tvr nexus/triliovault-rhv  --dependency-update  -f /opt/manifest/values.yaml
+    command: helm ugrade --install tvr trilio/triliovault-rhv  --dependency-update  -f /opt/manifest/values.yaml
 
   - name: Install mariadb-galera
     command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
