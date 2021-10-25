@@ -41,7 +41,7 @@
         sudo mv  CA.key  CA.pem  CA.srl  tvault.crt  tvault.csr  tvault.ext  tvault.key /opt/manifest/ca
 
   - name: add trilio helm repo
-    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password password
+    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password trilio
 
   - name: add btnami helm repo
     command: helm repo add bitnami https://charts.bitnami.com/bitnami
