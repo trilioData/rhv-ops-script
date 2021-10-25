@@ -10,24 +10,24 @@
     shell: |
       openssl genrsa -des3 -out CA.key -passout pass:trilio  2048 
       openssl req -x509 -new -nodes -key CA.key -passin pass:trilio  -sha256 -days 1825 -out CA.pem -batch
-      openssl genrsa -out tvault.key 2048
-      openssl req -new -key tvault.key -out tvault.csr -batch
+      openssl genrsa -out workloadmgr.key 2048
+      openssl req -new -key workloadmgr.key -out workloadmgr.csr -batch
       echo " 
           authorityKeyIdentifier=keyid,issuer
           basicConstraints=CA:FALSE
           keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
           subjectAltName = @alt_names
           [alt_names]
-          DNS.1 = tvault.com " > tvault.ext 
+          DNS.1 = tvault.com " > workloadmgr.ext 
           
-      openssl x509 -req -in tvault.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out tvault.crt -days 1825 -sha256 -extfile tvault.ext  -passin pass:trilio
+      openssl x509 -req -in tvault.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out workloadmgr.cert -days 1825 -sha256 -extfile workloadmgr.ext  -passin pass:trilio
 
   - name: create secrets for CA
     shell: kubectl create secret generic ca-certs --from-file=pem_content=CA.pem  --from-file=key_content=CA.key -n trilio
     ignore_errors: True
 
   - name: create secrets for Ingress
-    shell: kubectl create secret tls tvault-ingress-tls --namespace trilio --key tvault.key --cert tvault.crt
+    shell: kubectl create secret tls tvault-ingress-tls --namespace trilio --key workloadmgr.key --cert workloadmgr.cert
     ignore_errors: True
 
   - name: Create a directory /opt/manifest/ca if it does not exist
@@ -38,7 +38,7 @@
 
   - name: move certificates to /opt/manifest/ca
     shell: |
-        sudo mv  CA.key  CA.pem  CA.srl  tvault.crt  tvault.csr  tvault.ext  tvault.key /opt/manifest/ca
+        sudo mv  CA.key  CA.pem  CA.srl  workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
 
   - name: add trilio helm repo
     command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password trilio
