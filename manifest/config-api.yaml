@@ -27,6 +27,7 @@ spec:
       labels:
         app: config-api
     spec:
+      nodename: master-node1
       serviceAccountName: internal-kubectl
       containers:
       - image: trilio/tvr-configurator-api:3.4.1
