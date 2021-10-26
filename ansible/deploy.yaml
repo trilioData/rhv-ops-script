@@ -20,7 +20,7 @@
           [alt_names]
           DNS.1 = tvault.com " > workloadmgr.ext 
           
-      openssl x509 -req -in tvault.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out workloadmgr.cert -days 1825 -sha256 -extfile workloadmgr.ext  -passin pass:trilio
+      openssl x509 -req -in workloadmgr.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out workloadmgr.cert -days 1825 -sha256 -extfile workloadmgr.ext  -passin pass:trilio
 
   - name: create secrets for CA
     shell: kubectl create secret generic ca-certs --from-file=pem_content=CA.pem  --from-file=key_content=CA.key -n trilio
@@ -50,7 +50,7 @@
     shell: helm repo update
 
   - name: Install triliovault RHV 
-    command: helm ugrade --install tvr trilio/triliovault-rhv  --dependency-update  -f /opt/manifest/values.yaml
+    command: helm install tvr trilio/tvault  --dependency-update   -f /opt/manifest/values.yaml --set namespace=trilio
 
   - name: Install mariadb-galera
     command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
