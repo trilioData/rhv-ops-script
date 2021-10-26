@@ -2,10 +2,26 @@
 - name: TVM Deployment
   hosts: localhost
   tasks:
-  - name: create Trilio namespace
-    command: kubectl create ns trilio
-    ignore_errors: True
+  # - name: create Trilio namespace
+  #   command: kubectl create ns trilio
+  #   ignore_errors: True
     
+
+  - name: add trilio helm repo
+    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password trilio
+
+  - name: add btnami helm repo
+    command: helm repo add bitnami https://charts.bitnami.com/bitnami
+
+  - name: repo update  
+    shell: helm repo update
+
+  - name: Install triliovault RHV 
+    command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/manifest/values.yaml --set namespace=trilio
+
+  - name: Install mariadb-galera
+    command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
+
   - name: Create CA and Certs
     shell: |
       openssl genrsa -des3 -out CA.key -passout pass:trilio  2048 
@@ -39,20 +55,3 @@
   - name: move certificates to /opt/manifest/ca
     shell: |
         sudo mv  CA.key  CA.pem  CA.srl  workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
-
-  - name: add trilio helm repo
-    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password trilio
-
-  - name: add btnami helm repo
-    command: helm repo add bitnami https://charts.bitnami.com/bitnami
-
-  - name: repo update  
-    shell: helm repo update
-
-  - name: Install triliovault RHV 
-    command: helm install tvr trilio/tvault  --dependency-update   -f /opt/manifest/values.yaml --set namespace=trilio
-
-  - name: Install mariadb-galera
-    command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
-
-        
