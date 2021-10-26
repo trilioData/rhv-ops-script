@@ -16,7 +16,7 @@ spec:
       nodeName: master-node1
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:4.0.2
+        image: trilio/tvr-workloadmgr-api:4.0.4
         command:
           - bash
           - "-c"
