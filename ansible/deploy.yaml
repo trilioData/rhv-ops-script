@@ -55,3 +55,4 @@
   - name: move certificates to /opt/manifest/ca
     shell: |
         sudo mv  CA.key  CA.pem  CA.srl  workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
+        sudo chmod -R 777 /opt/manifest/ca
