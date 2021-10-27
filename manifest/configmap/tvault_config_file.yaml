@@ -4,6 +4,7 @@ metadata:
   name: tvault-config-file
 data:
   timezone: UTC
+  timezone_path: /usr/share/zoneinfo/UTC
   tvault-config.conf: |
     [DEFAULT]
     config_status = not_configured

@@ -53,7 +53,7 @@ data:
     state_path = /opt/stack/data/workloadmgr
     rootwrap_config = /etc/workloadmgr/rootwrap.conf
     api_paste_config = /etc/workloadmgr/api-paste.ini
-    sql_connection = mysql://mysql-0.mysql/workloadmgr?charset=utf8
+    sql_connection = mysql://mariadb-mariadb-galera.trilio.svc.cluster.local/workloadmgr?charset=utf8&user=root&password=trilio
     verbose = True
     debug = False
     auth_strategy = ovirt
@@ -120,4 +120,3 @@ data:
 
     [compute]
     hosts = {}
-
