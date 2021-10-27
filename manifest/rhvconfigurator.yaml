@@ -29,7 +29,7 @@ spec:
         app: rhvconfigurator
     spec:
       containers:
-      - image: trilio/tvr-configurator-api:3.4.6
+      - image: trilio/tvr-configurator-ui:1.0.2
         name: rhvconfigurator
         #command: ["nginx", "-g", "daemon off;"]
         ports:

@@ -30,7 +30,7 @@ spec:
       nodename: master-node1
       serviceAccountName: internal-kubectl
       containers:
-      - image: trilio/tvr-configurator-api:3.4.1
+      - image: trilio/tvr-configurator-api:3.4.3
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
@@ -47,6 +47,8 @@ spec:
             readOnly: false
           - name: tvr-secret
             mountPath: /opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/conf/tvr-secret
+          - name: deployments
+            mountPath: /opt/stack/workloadmgr/deployment
       volumes:
         - name: tvault-config
           configMap:
@@ -54,5 +56,9 @@ spec:
         - name: tvr-secret
           secret:
             secretName: tvr-secret
+        - name: deployments
+          hostPath:
+            path: /opt/manifest
+            type: Directory
       imagePullSecrets:
         - name: regcred-trilio
