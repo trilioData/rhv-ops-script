@@ -20,7 +20,7 @@
     command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/manifest/values.yaml --set namespace=trilio
 
   - name: Install mariadb-galera
-    command: helm install mariadb  bitnami/mariadb-galera --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3  --set podManagementPolicy=Parallel  -n trilio
+    command: helm install mariadb  bitnami/mariadb-galera --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3  -n trilio
 
   - name: Create CA and Certs
     shell: |
@@ -50,9 +50,9 @@
     ansible.builtin.file:
       path: /opt/manifest/ca
       state: directory
-      mode: '0755'
+      mode: '0777'
 
   - name: move certificates to /opt/manifest/ca
     shell: |
-        sudo mv  CA.key  CA.pem  CA.srl  workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
-        sudo chmod -R 777 /opt/manifest/ca
+        sudo mv  CA.key  CA.pem   workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
+       # sudo chmod -R 777 /opt/manifest/ca
