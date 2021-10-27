@@ -9,5 +9,5 @@ data:
     [DEFAULT]
     config_status = not_configured
     password_set = no
-    timezone: UTC
+    timezone = UTC
 immutable: false
