@@ -20,7 +20,7 @@
     command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/manifest/values.yaml --set namespace=trilio
 
   - name: Install mariadb-galera
-    command: helm upgrade --install mariadb  --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3   bitnami/mariadb-galera -n trilio
+    command: helm install mariadb  bitnami/mariadb-galera --set rootUser.password=trilio   --set galera.bootstrap.forceSafeToBootstrap=true  --set galera.bootstrap.bootstrapFromNode=3  --set podManagementPolicy=Parallel  -n trilio
 
   - name: Create CA and Certs
     shell: |
