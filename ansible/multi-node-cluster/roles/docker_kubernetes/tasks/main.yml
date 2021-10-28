@@ -61,6 +61,8 @@
 - name: Configure kubelet Eviction Thresholds
   command: echo "KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<256Mi,nodefs.available<1Gi,imagefs.available<1Gi"|sudo tee /etc/sysconfig/kubelet
 
+- name: just force systemd to reread configs 
+  systemd: daemon_reload=yes
 
 - name: restart kubelet
   service: 

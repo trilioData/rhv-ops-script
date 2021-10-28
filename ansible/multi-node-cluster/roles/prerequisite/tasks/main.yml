@@ -1,5 +1,11 @@
 ---
 # tasks file for prerequisite
+- name: Install PolicyCoreUtils-python for semanage binary
+  yum:
+    name: policycoreutils-python
+    update_cache: yes
+    state: present
+
 - name: selinux rule availibity
   shell: semanage port -l| grep 6446
   register: list_ha_port
