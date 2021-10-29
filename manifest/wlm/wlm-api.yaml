@@ -13,10 +13,9 @@ spec:
         app: wlm-api
     spec:
       serviceAccountName: internal-kubectl
-      nodeName: master-node1
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:4.0.4
+        image: trilio/tvr-workloadmgr-api:4.0.5
         command:
           - bash
           - "-c"
@@ -51,6 +50,8 @@ spec:
           readOnly: false
         - name: workloadmgr-config
           mountPath: /etc/workloadmgr/conf
+        - name: ceph-cert
+          mountPath: /opt/stack/config-certs/
       volumes:
         - name: tvault-config
           configMap:
@@ -58,6 +59,9 @@ spec:
         - name: workloadmgr-config
           configMap:
             name: workloadmgr-config-file
+        - name: ceph-cert
+          configMap:
+            name: ceph-cert
       imagePullSecrets:
         - name: regcred-trilio
 ---

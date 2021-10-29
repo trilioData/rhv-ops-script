@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wlm-scheduler
-        image:  trilio/tvr-workloadmgr-api:4.0.4
+        image:  trilio/tvr-workloadmgr-api:4.0.5
         command: [ "/bin/sh","-c" ]
         args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
@@ -36,6 +36,8 @@ spec:
         - name: vault-config
           mountPath: /etc/workloadmgr/vault.conf
           subPath: vault.conf
+        - name: ceph-cert
+          mountPath: /opt/stack/config-certs/
       volumes:
         - name: tvault-config
           configMap:
@@ -46,6 +48,9 @@ spec:
         - name: vault-config
           configMap:
             name: vault-config-file
+        - name: ceph-cert
+          configMap:
+            name: ceph-cert
       imagePullSecrets:
         - name: regcred-trilio
 ---

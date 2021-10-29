@@ -27,10 +27,10 @@ spec:
       labels:
         app: config-api
     spec:
-      nodename: master-node1
+      nodeName: master-node1
       serviceAccountName: internal-kubectl
       containers:
-      - image: trilio/tvr-configurator-api:3.4.3
+      - image: trilio/tvr-configurator-api:3.4.9
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
@@ -49,10 +49,15 @@ spec:
             mountPath: /opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/conf/tvr-secret
           - name: deployments
             mountPath: /opt/stack/workloadmgr/deployment
+          - name: ceph-cert
+            mountPath: /opt/stack/config-certs/
       volumes:
         - name: tvault-config
           configMap:
             name: tvault-config-file
+        - name: ceph-cert
+          configMap:
+            name: ceph-cert
         - name: tvr-secret
           secret:
             secretName: tvr-secret
