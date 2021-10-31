@@ -27,10 +27,11 @@ spec:
       labels:
         app: config-api
     spec:
-      nodeName: master-node1
+      nodeSelector:
+        kubernetes.io/hostname: master-node1
       serviceAccountName: internal-kubectl
       containers:
-      - image: trilio/tvr-configurator-api:3.4.9
+      - image:  trilio/tvr-configurator-api:3.5.1
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
