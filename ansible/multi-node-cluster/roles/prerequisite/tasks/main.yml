@@ -31,7 +31,7 @@
 
 - name: Install PolicyCoreUtils-python for semanage binary
   yum:
-    name: policycoreutils-python
+    name:  python3-policycoreutils
     update_cache: yes
     state: present
 
