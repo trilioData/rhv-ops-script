@@ -2,6 +2,11 @@
 
 # Install Docker Packages
 
+- name: Remove podman if exists
+  shell: |
+      dnf remove podman -y
+      yum erase podman buildah -y
+
 - name: Install the yum-utils package
   yum: 
     name: yum-utils
