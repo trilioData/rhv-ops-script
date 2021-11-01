@@ -6,7 +6,7 @@
     update_cache: yes
     state: present
 
-- name: Enable Port 6443 and 6446 for K8s and 2379 , 2380 for etcd Communication
+- name: Enable Port 6443 and 6446 for K8s and 2379 , 2380 for etcd Communication 10250,10251,10252,10255
   firewalld:
     port: "{{ item }}/tcp"
     permanent: true
@@ -16,6 +16,13 @@
   - 6446
   - 2379
   - 2380
+  - 10250
+  - 10251
+  - 10252
+  - 10255
+
+- name: enable route pod communication
+  shell: firewall-cmd --add-masquerade --permanent
 
 - name: Reload  Firewalld Service
   service:
