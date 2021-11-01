@@ -30,7 +30,7 @@ backend kubernetes-master-nodes
     server {{ host }} {{ hostvars[host].ansible_ssh_host }}:6443 check fall 3 rise 2
     {% endfor %}
 
-listen stats 0.0.0.0:8080
+listen stats *:8080
     mode http
     stats enable
     stats uri /
