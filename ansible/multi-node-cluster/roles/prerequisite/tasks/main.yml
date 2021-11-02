@@ -21,7 +21,6 @@
   - 10252
   - 10255
   - 5473
-  - 30000-32767
   
 
 - name: Enable Port 8472
@@ -39,6 +38,14 @@
     masquerade: yes
     permanent: true
     state: enabled
+    
+- name: open cni0 interface with firewalld.
+  firewalld:
+     zone: trusted 
+     interface: cni0
+     permanent: true
+     state: enabled
+    
   
   
 #- name: enable route pod communication
