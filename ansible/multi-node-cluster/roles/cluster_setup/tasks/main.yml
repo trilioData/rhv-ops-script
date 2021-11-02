@@ -3,6 +3,8 @@
 - name: restart services
   shell: |
         systemctl restart docker
+        systemctl restart haproxy
+        systemctl restart keepalived
 
 - name: k8s cluster initialization
   block:
