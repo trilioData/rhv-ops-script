@@ -24,7 +24,10 @@
   - 4444
 
 - name: enable route pod communication
-  shell: firewall-cmd --add-masquerade --permanent
+  shell: |
+       firewall-cmd --permanent --add-port=8472/udp
+       firewall-cmd --permanent --add-port=30000-32767/tcp
+       firewall-cmd --add-masquerade --permanent
 
 - name: Reload  Firewalld Service
   service:
