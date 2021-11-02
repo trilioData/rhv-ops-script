@@ -22,12 +22,30 @@
   - 10255
   - 4567
   - 4444
+  - 30000-32767
+  
 
-- name: enable route pod communication
-  shell: |
-       firewall-cmd --permanent --add-port=8472/udp
-       firewall-cmd --permanent --add-port=30000-32767/tcp
-       firewall-cmd --add-masquerade --permanent
+- name: Enable Port 8472
+  firewalld:
+    port: "{{ item }}/udp"
+    permanent: true
+    state: enabled
+  with_items:
+  - 8472
+  
+
+- name: Add-masquerade
+  firewalld:
+    masquerade: yes
+    permanent: true
+    state: enabled
+  
+  
+#- name: enable route pod communication
+#  shell: |
+#       firewall-cmd --permanent --add-port=8472/udp
+#       firewall-cmd --permanent --add-port=30000-32767/tcp
+#       firewall-cmd --add-masquerade --permanent
 
 - name: Reload  Firewalld Service
   service:
