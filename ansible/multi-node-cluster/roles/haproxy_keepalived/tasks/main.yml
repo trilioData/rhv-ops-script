@@ -45,4 +45,12 @@
     src: keepalived.node3.conf.j2
     dest: /etc/keepalived/keepalived.conf
   when: inventory_hostname == "master-node3" 
+  
+- name: get interface name
+  shell: |
+      interface=`route | grep default | awk '{print $8}'`
+      sed -i "s/eth0/${interface}/" /etc/keepalived/keepalived.conf
+      
+      
+
 
