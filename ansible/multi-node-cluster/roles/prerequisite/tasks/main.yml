@@ -21,6 +21,7 @@
   - 10252
   - 10255
   - 4567
+  - 4444
 
 - name: enable route pod communication
   shell: firewall-cmd --add-masquerade --permanent
