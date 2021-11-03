@@ -1,63 +1,63 @@
 ---
 # tasks file for prerequisite
-- name: Install firewalld on all the nodes for allowing port communication
-  yum:
-    name: firewalld
-    update_cache: yes
-    state: present
+# - name: Install firewalld on all the nodes for allowing port communication
+#   yum:
+#     name: firewalld
+#     update_cache: yes
+#     state: present
 
-- name: Enable Port 6443 and 6446 for K8s and 2379 , 2380 for etcd Communication 10250,10251,10252,10255
-  firewalld:
-    port: "{{ item }}/tcp"
-    permanent: true
-    state: enabled
-  with_items:
-  - 6443
-  - 6446
-  - 2379
-  - 2380
-  - 10250
-  - 10251
-  - 10252
-  - 10255
-  - 5473
+# - name: Enable Port 6443 and 6446 for K8s and 2379 , 2380 for etcd Communication 10250,10251,10252,10255
+#   firewalld:
+#     port: "{{ item }}/tcp"
+#     permanent: true
+#     state: enabled
+#   with_items:
+#   - 6443
+#   - 6446
+#   - 2379
+#   - 2380
+#   - 10250
+#   - 10251
+#   - 10252
+#   - 10255
+#   - 5473
   
 
-- name: Enable Port 8472
-  firewalld:
-    port: "{{ item }}/udp"
-    permanent: true
-    state: enabled
-  with_items:
-  - 8472
-  - 4789
+# - name: Enable Port 8472
+#   firewalld:
+#     port: "{{ item }}/udp"
+#     permanent: true
+#     state: enabled
+#   with_items:
+#   - 8472
+#   - 4789
   
 
-- name: Add-masquerade
-  firewalld:
-    masquerade: yes
-    permanent: true
-    state: enabled
+# - name: Add-masquerade
+#   firewalld:
+#     masquerade: yes
+#     permanent: true
+#     state: enabled
     
-- name: open cni0 interface with firewalld.
-  firewalld:
-     zone: trusted 
-     interface: cni0
-     permanent: true
-     state: enabled
+# - name: open cni0 interface with firewalld.
+#   firewalld:
+#      zone: trusted 
+#      interface: cni0
+#      permanent: true
+#      state: enabled
     
   
   
-#- name: enable route pod communication
-#  shell: |
-#       firewall-cmd --permanent --add-port=8472/udp
-#       firewall-cmd --permanent --add-port=30000-32767/tcp
-#       firewall-cmd --add-masquerade --permanent
+# #- name: enable route pod communication
+# #  shell: |
+# #       firewall-cmd --permanent --add-port=8472/udp
+# #       firewall-cmd --permanent --add-port=30000-32767/tcp
+# #       firewall-cmd --add-masquerade --permanent
 
-- name: Reload  Firewalld Service
-  service:
-    name: firewalld
-    state: restarted
+# - name: Reload  Firewalld Service
+#   service:
+#     name: firewalld
+#     state: restarted
 
 - name: Install PolicyCoreUtils-python for semanage binary
   yum:
