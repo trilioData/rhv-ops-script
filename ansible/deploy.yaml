@@ -21,8 +21,8 @@
 
   - name: Create CA and Certs
     shell: |
-      openssl genrsa -des3 -out CA.key -passout pass:trilio  2048 
-      openssl req -x509 -new -nodes -key CA.key -passin pass:trilio  -sha256 -days 1825 -out CA.pem -batch
+      openssl genrsa -des3 -out CA.key -passout pass:52T8FVYZJse  2048 
+      openssl req -x509 -new -nodes -key CA.key -passin pass:52T8FVYZJse  -sha256 -days 1825 -out CA.pem -batch
       openssl genrsa -out workloadmgr.key 2048
       openssl req -new -key workloadmgr.key -out workloadmgr.csr -batch
       echo " 
@@ -33,7 +33,7 @@
           [alt_names]
           DNS.1 = tvault.com " > workloadmgr.ext 
           
-      openssl x509 -req -in workloadmgr.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out workloadmgr.cert -days 1825 -sha256 -extfile workloadmgr.ext  -passin pass:trilio
+      openssl x509 -req -in workloadmgr.csr -CA CA.pem -CAkey CA.key -CAcreateserial -out workloadmgr.cert -days 1825 -sha256 -extfile workloadmgr.ext  -passin pass:52T8FVYZJse
 
   - name: create secrets for CA
     shell: kubectl create secret generic ca-certs --from-file=pem_content=CA.pem  --from-file=key_content=CA.key -n trilio
