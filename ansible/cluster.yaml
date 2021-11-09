@@ -12,6 +12,11 @@
       regexp: '^127\.0\.0\.1[ \t]+localhost'
       line: '127.0.0.1  master-node1 localhost'
       state: present
+      
+  - name: Remove podman if exists
+   shell: |
+       dnf remove podman -y
+       yum erase podman buildah -y
 
   # Install Docker Packages
 
