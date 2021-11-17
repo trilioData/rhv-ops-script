@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ceph-cert
+  namespace: {{ .Values.namespace }}
+data:
+  ceph.cert: value

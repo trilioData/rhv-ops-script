@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-api
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - name: http
+      port: 5000
+    - name: websocket
+      port: 8882
+  selector:
+    app: config-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-api
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: config-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: config-api
+    spec:
+      serviceAccountName: internal-kubectl
+      nodeSelector:
+        kubernetes.io/hostname: master-node1
+      containers:
+      - image: trilio/tvr-configurator-api:3.5.4
+        name: config-api
+        command: [ "/home/rhv/myansible/bin/python3"]
+        args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
+        ports:
+        - containerPort: 5000
+          name: config-api
+        - containerPort: 8882
+          name: websocket
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: tvault-config
+            mountPath: /etc/tvault-config
+            readOnly: false
+          - name: tvr-secret
+            mountPath: /opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/conf/tvr-secret
+          - name: deployments
+            mountPath: /opt/stack/workloadmgr/deployment
+          - name: ceph-cert
+            mountPath: /opt/stack/config-certs/
+      volumes:
+        - name: tvault-config
+          configMap:
+            name: tvault-config-file
+        - name: ceph-cert
+          configMap:
+            name: ceph-cert
+        - name: tvr-secret
+          secret:
+            secretName: tvr-secret
+        - name: deployments
+          hostPath:
+            path: /opt/manifest
+            type: Directory
+      imagePullSecrets:
+        - name: regcred-trilio

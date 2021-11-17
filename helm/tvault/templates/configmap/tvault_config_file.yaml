@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tvault-config-file
+  namespace: {{ .Values.namespace }}
+data:
+  timezone: UTC
+  timezone_path: /usr/share/zoneinfo/UTC
+  tvault-config.conf: |
+    [DEFAULT]
+    config_status = not_configured
+    password_set = no
+    timezone = UTC
+immutable: false
