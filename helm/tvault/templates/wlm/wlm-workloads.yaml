@@ -27,6 +27,9 @@ spec:
           requests:
             cpu: "250m"
             memory: "1Gi"
+        ports:
+        - containerPort: 5000
+          name: snapshot
         volumeMounts:
         - name: tvault-config
           mountPath: /etc/tvault-config/conf
@@ -63,8 +66,8 @@ spec:
   ports:
   - name: http
     port: 8785
-  - name: websocket
-    port: 8888
+  - name: snapshot
+    port: 5000
   selector:
     app: wlm-workloads
   type: ClusterIP
