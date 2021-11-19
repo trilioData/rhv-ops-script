@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wlm-scheduler
-        image:  trilio/tvr-workloadmgr-api:4.1.0
+        image:  trilio/tvr-workloadmgr-api:4.1.1
         command: [ "/bin/sh","-c" ]
         args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
