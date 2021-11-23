@@ -52,6 +52,9 @@ spec:
           mountPath: /etc/workloadmgr/conf
         - name: ceph-cert
           mountPath: /opt/stack/config-certs/
+        - name: vault-config
+          mountPath: /etc/workloadmgr/vault.conf
+          subPath: vault.conf
       volumes:
         - name: tvault-config
           configMap:
@@ -62,6 +65,9 @@ spec:
         - name: ceph-cert
           configMap:
             name: ceph-cert
+        - name: vault-config
+          configMap:
+            name: vault-config-file
       imagePullSecrets:
         - name: regcred-trilio
 ---
