@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: wlm-workloads
   namespace: {{ .Values.namespace }}
@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: wlm-workloads
-  replicas: 1 # tells deployment to run 2 pods matching the template
+ # replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
@@ -20,13 +20,6 @@ spec:
         args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-workloads --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
           privileged: true
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "2.5Gi"
-          requests:
-            cpu: "250m"
-            memory: "2Gi"
         ports:
         - containerPort: 5000
           name: snapshot
