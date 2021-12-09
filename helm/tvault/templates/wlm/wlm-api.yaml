@@ -32,12 +32,6 @@ spec:
           requests:
             cpu: "250m"
             memory: "2Gi"
-        env:
-          - name: TZ
-            valueFrom:
-              configMapKeyRef:
-                name: tvault-config-file
-                key: timezone
         ports:
         - containerPort: 8781
           name: wlm-api
@@ -56,6 +50,8 @@ spec:
         - name: vault-config
           mountPath: /etc/workloadmgr/vault.conf
           subPath: vault.conf
+        - name: tz-config
+          mountPath: /etc/localtime          
       volumes:
         - name: tvault-config
           configMap:
@@ -69,6 +65,9 @@ spec:
         - name: vault-config
           configMap:
             name: vault-config-file
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/UTC
       imagePullSecrets:
         - name: regcred-trilio
 ---
