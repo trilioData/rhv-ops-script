@@ -30,9 +30,8 @@ spec:
         app: rhvconfigurator
     spec:
       containers:
-      - image: trilio/tvr-configurator-ui:1.0.5
+      - image: {{ .Values.tvr_configurator_ui }}
         name: rhvconfigurator
-        #command: ["nginx", "-g", "daemon off;"]
         ports:
         - containerPort: 80
           name: rhvconfigurator

@@ -32,7 +32,7 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: master-node1
       containers:
-      - image: trilio/tvr-configurator-api:3.6.1
+      - image: {{ .Values.tvr_configurator_api }}
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
@@ -43,6 +43,9 @@ spec:
           name: websocket
         securityContext:
           privileged: true
+        env:
+        - name: TVAULT_VERSION
+          value: {{ .Values.tvault_version }}
         volumeMounts:
           - name: tvault-config
             mountPath: /etc/tvault-config
