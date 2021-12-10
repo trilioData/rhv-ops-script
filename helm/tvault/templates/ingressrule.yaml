@@ -40,7 +40,7 @@ spec:
         path: /chatsocket2
         backend:
           service:
-            name: websocket
+            name: wlm-api
             port:
              number: 8888
       - pathType: Prefix
