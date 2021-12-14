@@ -59,29 +59,29 @@
 #     name: firewalld
 #     state: restarted
 
-- name: Install PolicyCoreUtils-python for semanage binary
-  yum:
-    name:  python3-policycoreutils
-    update_cache: yes
-    state: present
+# - name: Install PolicyCoreUtils-python for semanage binary
+#   yum:
+#     name:  python3-policycoreutils
+#     update_cache: yes
+#     state: present
 
-- name: selinux rule availibity
-  shell: semanage port -l| grep 6446
-  register: list_ha_port
-  ignore_errors: True
+# - name: selinux rule availibity
+#   shell: semanage port -l| grep 6446
+#   register: list_ha_port
+#   ignore_errors: True
 
-- name: Configure SELinux haproxy
-  shell: semanage port -a -t http_cache_port_t 6446 -p tcp
-  when: list_ha_port.stdout.find("http_cache_port_t") == -1
+# - name: Configure SELinux haproxy
+#   shell: semanage port -a -t http_cache_port_t 6446 -p tcp
+#   when: list_ha_port.stdout.find("http_cache_port_t") == -1
 
-- name: selinux rule availibity
-  shell: semanage port -l| grep 6443
-  register: list_k8s_port
-  ignore_errors: True
+# - name: selinux rule availibity
+#   shell: semanage port -l| grep 6443
+#   register: list_k8s_port
+#   ignore_errors: True
 
-- name: Configure SELinux for k8s cluster
-  shell: semanage port -a -t http_cache_port_t 6443 -p tcp
-  when: list_k8s_port.stdout.find("http_cache_port_t") == -1
+# - name: Configure SELinux for k8s cluster
+#   shell: semanage port -a -t http_cache_port_t 6443 -p tcp
+#   when: list_k8s_port.stdout.find("http_cache_port_t") == -1
 
 - name: Change the hostname for k8s standard
   hostname:
