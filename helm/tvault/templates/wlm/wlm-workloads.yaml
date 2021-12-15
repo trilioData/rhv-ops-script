@@ -34,6 +34,8 @@ spec:
           subPath: vault.conf
         - name: ceph-cert
           mountPath: /opt/stack/config-certs/
+        - name: tz-config
+          mountPath: /etc/localtime  
       volumes:
         - name: tvault-config
           configMap:
@@ -47,6 +49,9 @@ spec:
         - name: ceph-cert
           configMap:
             name: ceph-cert
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/UTC
       imagePullSecrets:
         - name: regcred-trilio
 ---
