@@ -53,3 +53,11 @@
     shell: |
         sudo mv  CA.key  CA.pem   workloadmgr.cert  workloadmgr.csr  workloadmgr.ext  workloadmgr.key /opt/manifest/ca
        # sudo chmod -R 777 /opt/manifest/ca
+       
+  - name: get CA.pem
+    shell: cat /opt/manifest/ca/CA.pem
+    register: result
+
+  - name: Print CA.pem >> Add this certificate to your browser!
+    debug:
+      msg: "{{ result.stdout_lines }}"
