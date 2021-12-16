@@ -30,6 +30,10 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:3.8-management
+        lifecycle:
+              postStart:
+                exec:
+                  command: ["/bin/sh","-c","rabbitmq-plugins --offline enable rabbitmq_management;until rabbitmqctl node_health_check; do  sleep 5;done;rabbitmqctl set_policy ha-all \".\" '{\"ha-mode\":\"all\", \"ha-sync-mode\":\"automatic\"}' --apply-to all --priority 0;"]
         ports:
         - containerPort: 4369
           name: discovery
