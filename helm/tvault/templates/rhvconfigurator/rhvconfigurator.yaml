@@ -30,7 +30,7 @@ spec:
         app: rhvconfigurator
     spec:
       containers:
-      - image: {{ .Values.tvr_configurator_ui }}
+      - image: trilio/tvr-configurator-ui:1.0.6
         name: rhvconfigurator
         ports:
         - containerPort: 80

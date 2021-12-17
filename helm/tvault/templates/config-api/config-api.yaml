@@ -32,7 +32,7 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: master-node1
       containers:
-      - image: {{ .Values.tvr_configurator_api }}
+      - image: trilio/tvr-configurator-api:3.6.6
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
