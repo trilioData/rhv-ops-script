@@ -22,6 +22,7 @@ spec:
           - "-c"
           - |
             set -ex
+            /usr/sbin/crond start
             /home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py
             su vdsm bash -c '/home/rhv/myansible/bin/gunicorn --timeout=600 --bind 0.0.0.0:8781 --threads=5 "workloadmgr.app:app"'
         workingDir: /var/run
