@@ -1,6 +1,7 @@
 
 
 namespace: trilio
+configmap_enabled: false
 
 
 metallb:

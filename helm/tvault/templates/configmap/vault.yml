@@ -1,8 +1,11 @@
+{{- if .Values.configmap_enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-config-file
   namespace: {{ .Values.namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   vault.conf: |
     ####################
@@ -24,3 +27,4 @@ data:
     log_file = /var/log/tvault-object-store/tvault-object-store.log
     debug = False
     verbose = True
+{{- end -}}

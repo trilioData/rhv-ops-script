@@ -1,7 +1,11 @@
+{{- if .Values.configmap_enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ceph-cert
   namespace: {{ .Values.namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   ceph.cert: value
+{{- end -}}

@@ -1,8 +1,11 @@
+{{- if .Values.configmap_enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: workloadmgr-config-file
   namespace: {{ .Values.namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   workloadmgr.conf: |
     ####################
@@ -121,3 +124,4 @@ data:
 
     [compute]
     hosts = {}
+{{- end -}}

@@ -1,8 +1,11 @@
+{{- if .Values.configmap_enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tvault-config-file
   namespace: {{ .Values.namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   timezone: UTC
   timezone_path: /usr/share/zoneinfo/UTC
@@ -12,3 +15,4 @@ data:
     password_set = no
     timezone = UTC
 immutable: false
+{{- end -}}
