@@ -13,6 +13,7 @@ spec:
       labels:
         app: wlm-scheduler
     spec:
+      serviceAccountName: internal-kubectl
       containers:
       - name: wlm-scheduler
         image:  trilio/tvr-workloadmgr-api:4.2.7
