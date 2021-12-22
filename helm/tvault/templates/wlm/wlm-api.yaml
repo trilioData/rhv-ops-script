@@ -16,7 +16,7 @@ spec:
       serviceAccountName: internal-kubectl
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:4.2.7
+        image: trilio/tvr-workloadmgr-api:4.2.8
         command:
           - bash
           - "-c"
