@@ -1,5 +1,5 @@
 [node1]
-master-node1 ansible_ssh_host=142.44.219.120 ansible_connection=local ansible_ssh_pass=52T8FVYZJse
+master-node1 ansible_ssh_host=142.44.219.120  ansible_ssh_pass=52T8FVYZJse
 
 [node2]
 master-node2 ansible_ssh_host=142.44.219.121 ansible_ssh_pass=52T8FVYZJse
