@@ -73,5 +73,15 @@
 - name: Untained Master node
   command: kubectl taint nodes --all node-role.kubernetes.io/master-
   when: inventory_hostname == "master-node1"
+  
+- name: Create directory /mnt/trilio
+  file:
+    path: /mnt/trilio
+    state: directory
+
+- name: copy inventory to nodes
+  copy: 
+    src: /mnt/trilio/hosts
+    dest: /mnt/trilio/hosts
 
 - import_tasks: update_etcd.yaml
