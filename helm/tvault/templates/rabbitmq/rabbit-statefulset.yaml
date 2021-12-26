@@ -31,9 +31,19 @@ spec:
       - name: rabbitmq
         image: rabbitmq:3.8-management
         lifecycle:
-              postStart:
-                exec:
-                  command: ["/bin/sh","-c","rabbitmq-plugins --offline enable rabbitmq_management;until rabbitmqctl node_health_check; do  sleep 5;done;rabbitmqctl set_policy ha-all \".\" '{\"ha-mode\":\"all\", \"ha-sync-mode\":\"automatic\"}' --apply-to all --priority 0;"]
+          postStart:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - |
+                # Wait for the RabbitMQ to be ready.
+                until rabbitmqctl node_health_check; do
+                  sleep 5
+                done
+                # By default, RabbitMQ does not have Highly Available policies enabled,
+                # using the following command to enable it.
+                rabbitmqctl set_policy ha-all "." '{"ha-mode":"all", "ha-sync-mode":"automatic"}' --apply-to all --priority 0
         ports:
         - containerPort: 4369
           name: discovery
