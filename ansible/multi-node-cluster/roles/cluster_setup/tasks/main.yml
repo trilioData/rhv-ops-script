@@ -88,6 +88,11 @@
   synchronize:
     src: /opt/manifest/
     dest: /opt/manifest/
+    
+- name: copy ansible directory among nodes
+  synchronize:
+    src: /opt/ansible/
+    dest: /opt/ansible/
 
 
 - import_tasks: update_etcd.yaml
