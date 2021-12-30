@@ -18,4 +18,8 @@
     creates: "{{ k8s_kubelet_config }}"
   async: 900
   poll: 5
-
+  
+- name: copy manifest directory among nodes
+  synchronize:
+    src: /opt/manifest/
+    dest: /opt/manifest/
