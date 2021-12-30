@@ -83,5 +83,11 @@
   copy: 
     src: /mnt/trilio/hosts
     dest: /mnt/trilio/hosts
+    
+- name: copy manifest directory among nodes
+  synchronize:
+    src: /opt/manifest/
+    dest: /opt/manifest/
+
 
 - import_tasks: update_etcd.yaml
