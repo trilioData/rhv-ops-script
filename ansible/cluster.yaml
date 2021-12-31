@@ -133,7 +133,10 @@
   - name: Install calico pod network
     command: kubectl apply -f https://docs.projectcalico.org/archive/v3.17/manifests/calico.yaml
 
-
+  - name: enable kubelet service
+    service:
+      name: kubelet
+      enabled: yes
 
 
 
