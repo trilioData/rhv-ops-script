@@ -10,7 +10,7 @@
     shell: helm repo update
 
   - name: Install triliovault RHV 
-    command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/ansible/values.yaml --set namespace=trilio --set configmap_enabled=true
+    command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/ansible/values.yaml --set namespace=trilio 
 
   - name: Install mariadb
     command: helm install mariadb trilio/mariadb -n trilio
