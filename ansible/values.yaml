@@ -2,7 +2,7 @@
 
 namespace: trilio
 
-configmap_enabled: false
+configmap_enabled: true
 
 metallb:
    enabled: true
