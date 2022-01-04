@@ -72,6 +72,7 @@
 - name: restart kubelet
   service: 
     name: kubelet 
+    enabled: yes
     state: restarted
 
 
