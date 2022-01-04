@@ -16,7 +16,7 @@ spec:
       - name: wlm-scheduler
         image:  trilio/tvr-workloadmgr-api:4.0.9
         command: [ "/bin/sh","-c" ]
-        args: [ "/usr/sbin/crond start; /home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
+        args: [ "/home/rhv/myansible/bin/python3 /home/rhv/myansible/lib64/python3.7/site-packages/workloadmgr/mount_backup_target.py; su vdsm bash -c '/home/rhv/myansible/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/conf/workloadmgr.conf'" ]
         securityContext:
           privileged: true
         resources:
