@@ -31,7 +31,7 @@ spec:
         kubernetes.io/hostname: master-node1
       serviceAccountName: internal-kubectl
       containers:
-      - image:  trilio/tvr-configurator-api:3.6.0
+      - image:  trilio/tvr-configurator-api:3.7.0
         name: config-api
         command: [ "/home/rhv/myansible/bin/python3"]
         args: ["/opt/stack/workloadmgr/workloadmgr/tvault-config/tvault/app.py"]
