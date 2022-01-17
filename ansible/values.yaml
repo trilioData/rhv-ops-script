@@ -13,7 +13,7 @@ metallb:
        addresses:
        - 142.44.219.121/32
 
-tvr_workloadmanager_api : trilio/tvr-workloadmgr-api:4.2.19
+tvr_workloadmanager_api : trilio/tvr-workloadmgr-api:4.2.20
 tvr_configurator_api : trilio/tvr-configurator-api:3.7.1
 tvr_configurator_ui : trilio/tvr-configurator-ui:1.0.6
 
