@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ceph-certs
-data:
-  ceph.cert: value
