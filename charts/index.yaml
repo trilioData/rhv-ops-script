@@ -1,0 +1,56 @@
+apiVersion: v1
+entries:
+  dashboard:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2022-02-22T00:35:20.565421952+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 7d71f7cd0e490ecce7b8c3c877de0be3add1af0fb6bf35cc33574444446c859f
+    name: dashboard
+    type: application
+    urls:
+    - dashboard-0.1.0.tgz
+    version: 0.1.0
+  ingress:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-22T00:35:20.568632503+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for ingress configuration
+    digest: 15d94e5afb5918b36e37114eb1c022902cab503b5805018c9804ed92298a461e
+    name: ingress
+    type: application
+    urls:
+    - ingress-1.0.1.tgz
+    version: 1.0.1
+  rabbitmq:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-22T00:35:20.569309211+05:30"
+    description: A Helm chart for rabbitmq configuration
+    digest: 89391bb3aeaef501d8314ec1fe325f12e9277cadb3b47b104ac82ab2558f9fdf
+    name: rabbitmq
+    type: application
+    urls:
+    - rabbitmq-1.0.2.tgz
+    version: 1.0.2
+  tvault:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-22T00:35:20.56981644+05:30"
+    description: A Helm chart for tvault configuration
+    digest: 065a3effa03e40684b4e75841381ea001d5f53369b292adc41532c1765faa7c6
+    name: tvault
+    type: application
+    urls:
+    - tvault-1.0.3.tgz
+    version: 1.0.3
+generated: "2022-02-22T00:35:20.564921187+05:30"
