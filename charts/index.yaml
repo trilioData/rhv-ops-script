@@ -3,7 +3,7 @@ entries:
   dashboard:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2022-02-22T10:52:35.408826436+05:30"
+    created: "2022-02-22T12:48:02.397884983+05:30"
     description: A Helm chart for Kubernetes
     digest: 7d71f7cd0e490ecce7b8c3c877de0be3add1af0fb6bf35cc33574444446c859f
     name: dashboard
@@ -14,7 +14,26 @@ entries:
   ingress:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-22T10:52:35.417072492+05:30"
+    created: "2022-02-22T12:48:02.405830486+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for ingress configuration
+    digest: 4697c72aac26b114f0d92a1ef4f4ecacb156dacc765d21f1b7acdfcb9e899694
+    name: ingress
+    type: application
+    urls:
+    - ingress-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-22T12:48:02.401697653+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -36,7 +55,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.5.13
-    created: "2022-02-22T10:52:35.425051351+05:30"
+    created: "2022-02-22T12:48:02.411616376+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -72,7 +91,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.6.4
-    created: "2022-02-22T10:52:35.430380632+05:30"
+    created: "2022-02-22T12:48:02.419111435+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -105,7 +124,17 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-22T10:52:35.431060771+05:30"
+    created: "2022-02-22T12:48:02.4202292+05:30"
+    description: A Helm chart for rabbitmq configuration
+    digest: 75e86b7b16827290bde5e0f2c046190b68b7d9bc6a53d38736bb3fcd5bb14d6a
+    name: rabbitmq
+    type: application
+    urls:
+    - rabbitmq-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-22T12:48:02.419674009+05:30"
     description: A Helm chart for rabbitmq configuration
     digest: 89391bb3aeaef501d8314ec1fe325f12e9277cadb3b47b104ac82ab2558f9fdf
     name: rabbitmq
@@ -116,7 +145,7 @@ entries:
   tvault:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-22T10:52:35.431757135+05:30"
+    created: "2022-02-22T12:48:02.421009082+05:30"
     description: A Helm chart for tvault configuration
     digest: 065a3effa03e40684b4e75841381ea001d5f53369b292adc41532c1765faa7c6
     name: tvault
@@ -124,4 +153,4 @@ entries:
     urls:
     - tvault-1.0.3.tgz
     version: 1.0.3
-generated: "2022-02-22T10:52:35.407997654+05:30"
+generated: "2022-02-22T12:48:02.397409391+05:30"
