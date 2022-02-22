@@ -124,16 +124,6 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-22T12:48:02.4202292+05:30"
-    description: A Helm chart for rabbitmq configuration
-    digest: 75e86b7b16827290bde5e0f2c046190b68b7d9bc6a53d38736bb3fcd5bb14d6a
-    name: rabbitmq
-    type: application
-    urls:
-    - rabbitmq-1.0.3.tgz
-    version: 1.0.3
-  - apiVersion: v2
-    appVersion: 1.16.0
     created: "2022-02-22T13:09:58.657423553+05:30"
     description: A Helm chart for rabbitmq configuration
     digest: 89391bb3aeaef501d8314ec1fe325f12e9277cadb3b47b104ac82ab2558f9fdf
