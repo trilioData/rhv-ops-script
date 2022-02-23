@@ -5,7 +5,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.5.13
-    created: "2022-02-23T19:11:41.630050924+05:30"
+    created: "2022-02-23T19:26:16.819101711+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -41,7 +41,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.6.4
-    created: "2022-02-23T19:11:41.637193648+05:30"
+    created: "2022-02-23T19:26:16.827711758+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -74,7 +74,26 @@ entries:
   tvault:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-02-23T19:11:41.644314988+05:30"
+    created: "2022-02-23T19:26:16.846629913+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for tvault configuration
+    digest: 3c8f795e8cbc9cce101c184cfbf161097ca8bd80cc94f24ea655ca0627a26750
+    name: tvault
+    type: application
+    urls:
+    - tvault-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-23T19:26:16.836713766+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -91,4 +110,4 @@ entries:
     urls:
     - tvault-1.0.3.tgz
     version: 1.0.3
-generated: "2022-02-23T19:11:41.622130667+05:30"
+generated: "2022-02-23T19:26:16.809691762+05:30"
