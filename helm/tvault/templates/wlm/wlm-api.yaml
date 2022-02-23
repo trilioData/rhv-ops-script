@@ -16,7 +16,7 @@ spec:
       serviceAccountName: internal-kubectl
       containers:
       - name: wlm-base-api
-        image: trilio/tvr-workloadmgr-api:4.2.23
+        image: trilio/tvr-workloadmgr-api:4.2.26
         command:
           - bash
           - "-c"
@@ -45,7 +45,7 @@ spec:
           mountPath: /etc/workloadmgr/vault.conf
           subPath: vault.conf
         - name: tz-config
-          mountPath: /etc/localtime          
+          mountPath: /etc/localtime    
       volumes:
         - name: tvault-config
           configMap:

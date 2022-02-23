@@ -9,7 +9,7 @@ spec:
   tls:
    - hosts:
       - rabbitmq.tvault.com
-     secretName: tvault-ingress-tls
+     secretName: rabbit-tls-secret
   rules:
   - host: rabbitmq.tvault.com
     http:
