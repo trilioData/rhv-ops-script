@@ -1,0 +1,94 @@
+apiVersion: v1
+entries:
+  mariadb:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 10.5.13
+    created: "2022-02-23T19:11:41.630050924+05:30"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Fast, reliable, scalable, and easy to use open-source relational
+      database system. MariaDB Server is intended for mission-critical, heavy-load
+      production systems as well as for embedding into mass-deployed software. Highly
+      available MariaDB cluster.
+    digest: 0496bd16632474a4f1ad01aab5cdf31df6e3e908d68ef47646622d9a6829fcb2
+    home: https://github.com/bitnami/charts/tree/master/bitnami/mariadb
+    icon: https://bitnami.com/assets/stacks/mariadb/img/mariadb-stack-220x234.png
+    keywords:
+    - mariadb
+    - mysql
+    - database
+    - sql
+    - prometheus
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: mariadb
+    sources:
+    - https://github.com/bitnami/bitnami-docker-mariadb
+    - https://github.com/prometheus/mysqld_exporter
+    - https://mariadb.org
+    urls:
+    - mariadb-10.1.1.tgz
+    version: 10.1.1
+  mariadb-galera:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 10.6.4
+    created: "2022-02-23T19:11:41.637193648+05:30"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: MariaDB Galera is a multi-master database cluster solution for synchronous
+      replication and high availability.
+    digest: 1883c46053d86b54dd10a4a324676f8341d511ad2fd884187835342e230e4b1d
+    home: https://github.com/bitnami/charts/tree/master/bitnami/mariadb-galera
+    icon: https://bitnami.com/assets/stacks/mariadb-galera/img/mariadb-galera-stack-220x234.png
+    keywords:
+    - mariadb
+    - mysql
+    - database
+    - sql
+    - prometheus
+    - galera
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: mariadb-galera
+    sources:
+    - https://github.com/bitnami/bitnami-docker-mariadb-galera
+    - https://github.com/prometheus/mysqld_exporter
+    - https://mariadb.org
+    urls:
+    - mariadb-galera-6.0.2.tgz
+    version: 6.0.2
+  tvault:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-23T19:11:41.644314988+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for tvault configuration
+    digest: 8415a60aee5faac909cde2b032133d2e3e8030a18547b9afae0e8517c8ec708c
+    name: tvault
+    type: application
+    urls:
+    - tvault-1.0.3.tgz
+    version: 1.0.3
+generated: "2022-02-23T19:11:41.622130667+05:30"
