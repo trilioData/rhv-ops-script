@@ -4,7 +4,7 @@
   tasks:
 
   - name: add trilio helm repo
-    command: helm repo add trilio http://51.161.115.96:8081/repository/trilio/ --username admin --password trilio
+    command: helm repo add trilio https://triliodata.github.io/rhv-ops-script/charts/
 
   - name: repo update  
     shell: helm repo update
@@ -35,7 +35,7 @@
     when: ca_pem.stat.exists == False
     
 
-  - name: signed the certificate
+  - name: signed the certificate for tvault
     shell: |
       echo " 
           authorityKeyIdentifier=keyid,issuer
@@ -47,6 +47,32 @@
           
       openssl x509 -req -in /opt/manifest/ca/workloadmgr.csr -CA /opt/manifest/ca/CA.pem -CAkey /opt/manifest/ca/CA.key -CAcreateserial -out /opt/manifest/ca/workloadmgr.cert -days 1825 -sha256 -extfile /opt/manifest/ca/workloadmgr.ext  -passin pass:52T8FVYZJse
 
+
+  - name: signed the certificate for rabbitmq
+    shell: |
+      echo " 
+          authorityKeyIdentifier=keyid,issuer
+          basicConstraints=CA:FALSE
+          keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+          subjectAltName = @alt_names
+          [alt_names]
+          DNS.1 = rabbitmq.tvault.com " > /opt/manifest/ca/rabbitmq.ext 
+          
+      openssl x509 -req -in /opt/manifest/ca/workloadmgr.csr -CA /opt/manifest/ca/CA.pem -CAkey /opt/manifest/ca/CA.key -CAcreateserial -out /opt/manifest/ca/rabbitmq.cert -days 1825 -sha256 -extfile /opt/manifest/ca/rabbitmq.ext  -passin pass:52T8FVYZJse
+
+  - name: signed the certificate for dashboard
+    shell: |
+      echo " 
+          authorityKeyIdentifier=keyid,issuer
+          basicConstraints=CA:FALSE
+          keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+          subjectAltName = @alt_names
+          [alt_names]
+          DNS.1 = dashboard.tvault.com " > /opt/manifest/ca/dashboard.ext 
+          
+      openssl x509 -req -in /opt/manifest/ca/workloadmgr.csr -CA /opt/manifest/ca/CA.pem -CAkey /opt/manifest/ca/CA.key -CAcreateserial -out /opt/manifest/ca/dashboard.cert -days 1825 -sha256 -extfile /opt/manifest/ca/dashboard.ext  -passin pass:52T8FVYZJse
+
+
   - name: create secrets for CA
     shell: kubectl create secret generic ca-certs --from-file=pem_content=/opt/manifest/ca/CA.pem  --from-file=key_content=/opt/manifest/ca/CA.key -n trilio
     ignore_errors: True
@@ -54,5 +80,14 @@
   - name: create secrets for Ingress
     shell: kubectl create secret tls tvault-ingress-tls --namespace trilio --key /opt/manifest/ca/workloadmgr.key --cert /opt/manifest/ca/workloadmgr.cert
     ignore_errors: True
+
+  - name: create secrets for rabbitmq
+    shell: kubectl create secret tls rabbit-tls-secret --namespace trilio --key /opt/manifest/ca/workloadmgr.key --cert /opt/manifest/ca/rabbitmq.cert
+    ignore_errors: True
+
+  - name: create secrets for dashboard
+    shell: kubectl create secret tls tls-secret --namespace kubernetes-dashboard --key /opt/manifest/ca/workloadmgr.key --cert /opt/manifest/ca/dashboard.cert
+    ignore_errors: True 
+
 
  
