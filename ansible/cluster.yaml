@@ -115,7 +115,7 @@
       state: restarted
 
   - name: Initialize kubeadm 
-    command: kubeadm init --upload-certs 
+    command: kubeadm init --upload-certs  --pod-network-cidr=10.244.0.0/16
     async: 900
     poll: 5
 
