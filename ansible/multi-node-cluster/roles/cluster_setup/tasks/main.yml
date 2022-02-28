@@ -9,7 +9,7 @@
 - name: k8s cluster initialization
   block:
     - name: Initialize the Kubernetes cluster using kubeadm at master-node1
-      command: kubeadm init --control-plane-endpoint {{ virtual_ip }}:6446 --upload-certs 
+      command: kubeadm init --control-plane-endpoint {{ virtual_ip }}:6446 --upload-certs --pod-network-cidr=10.244.0.0/16
       async: 900
       poll: 5
       
