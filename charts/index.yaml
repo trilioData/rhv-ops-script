@@ -5,7 +5,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.5.13
-    created: "2022-03-08T11:55:21.044505114+05:30"
+    created: "2022-03-08T15:57:13.10408414+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -41,7 +41,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.6.4
-    created: "2022-03-08T11:55:21.048104914+05:30"
+    created: "2022-03-08T15:57:13.106826442+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -74,7 +74,26 @@ entries:
   tvault:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.068604052+05:30"
+    created: "2022-03-08T15:57:13.132566248+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for tvault configuration
+    digest: 99840646a7d6384b4718042edcb7deb169073653341c482ddce0a807ffa00e4b
+    name: tvault
+    type: application
+    urls:
+    - tvault-1.0.9.tgz
+    version: 1.0.9
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-03-08T15:57:13.128698165+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -93,7 +112,7 @@ entries:
     version: 1.0.8
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.065506962+05:30"
+    created: "2022-03-08T15:57:13.126060093+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -112,7 +131,7 @@ entries:
     version: 1.0.7
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.061945132+05:30"
+    created: "2022-03-08T15:57:13.122611195+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -131,7 +150,7 @@ entries:
     version: 1.0.6
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.0589473+05:30"
+    created: "2022-03-08T15:57:13.119337133+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -150,7 +169,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.05522227+05:30"
+    created: "2022-03-08T15:57:13.115308612+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -169,7 +188,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T11:55:21.05163897+05:30"
+    created: "2022-03-08T15:57:13.109875477+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -186,4 +205,4 @@ entries:
     urls:
     - tvault-1.0.3.tgz
     version: 1.0.3
-generated: "2022-03-08T11:55:21.041304411+05:30"
+generated: "2022-03-08T15:57:13.10115822+05:30"
