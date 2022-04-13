@@ -4,15 +4,6 @@ namespace: trilio
 configmap_enabled: false
 
 
-metallb:
-   enabled: true
-   configInline:
-     address-pools:
-     - name: default
-       protocol: layer2
-       addresses:
-       - 142.44.219.121/32
-
 tvr_workloadmanager_api : trilio/tvr-workloadmgr-api:4.2.20
 tvr_configurator_api : trilio/tvr-configurator-api:3.7.0
 tvr_configurator_ui : trilio/tvr-configurator-ui:1.0.6
