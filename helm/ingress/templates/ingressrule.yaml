@@ -1,0 +1,63 @@
+{{- if .Values.configmap_enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rhvconfigurator-ingress
+  namespace: {{ .Values.namespace }}
+  annotations: 
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-expose-headers: "X-OvirtAuth-User,X-OvirtAuth-Password,X-OvirtAuth-Token"          
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS, HEAD, DELETE, PUT"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"  
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Origin, Accept, X-OvirtAuth-User, X-OvirtAuth-Password, X-OvirtAuth-Token, Content-Type, X-Auth-Project-Id"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "360"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "360"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    "helm.sh/resource-policy": keep
+spec:
+  tls:
+   - hosts:
+      - tvault.com
+     secretName: tvault-ingress-tls
+  rules:
+  - host: tvault.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: rhvconfigurator
+            port:
+              number: 80
+      - pathType: Prefix
+        path: /v1/admin
+        backend:
+          service:
+            name: wlm-api
+            port:
+              number: 8781
+      - pathType: Prefix
+        path: /chatsocket2
+        backend:
+          service:
+            name: wlm-api
+            port:
+             number: 8888
+      - pathType: Prefix
+        path: /v1/
+        backend:
+          service:
+            name: config-api
+            port:
+              number: 5000
+      - pathType: Prefix
+        path: /chatsocket
+        backend:
+          service:
+            name: config-api
+            port:
+              number: 8882
+{{- end -}}
