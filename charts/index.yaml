@@ -1,11 +1,42 @@
 apiVersion: v1
 entries:
+  dashboard:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2022-04-13T13:39:01.813205+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 524de1216db0410f832408f127d5235167cd2bbdf007d9151730456451a78ab5
+    name: dashboard
+    type: application
+    urls:
+    - dashboard-0.1.0.tgz
+    version: 0.1.0
+  ingress:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-04-13T13:39:01.817416+05:30"
+    dependencies:
+    - condition: metallb.enabled
+      name: metallb
+      repository: https://metallb.github.io/metallb
+      version: 0.10.2
+    - condition: ingress-nginx.enables
+      name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.1
+    description: A Helm chart for ingress configuration
+    digest: 9d1803fc580c1d5e6c3621121ea9728007b46584c5cca7b9937b02a8a8bca2a0
+    name: ingress
+    type: application
+    urls:
+    - ingress-1.0.2.tgz
+    version: 1.0.2
   mariadb:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 10.5.13
-    created: "2022-03-08T15:57:13.10408414+05:30"
+    created: "2022-04-13T13:39:01.821098+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -41,7 +72,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 10.6.4
-    created: "2022-03-08T15:57:13.106826442+05:30"
+    created: "2022-04-13T13:39:01.823406+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -71,21 +102,23 @@ entries:
     urls:
     - mariadb-galera-6.0.2.tgz
     version: 6.0.2
+  rabbitmq:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-04-13T13:39:01.823903+05:30"
+    description: A Helm chart for rabbitmq configuration
+    digest: 11204c01c3073b88d68aedb394d39cacaa178d4a1b3cf121df0a42bb57b6ed42
+    name: rabbitmq
+    type: application
+    urls:
+    - rabbitmq-1.0.3.tgz
+    version: 1.0.3
   tvault:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.132566248+05:30"
-    dependencies:
-    - condition: metallb.enabled
-      name: metallb
-      repository: https://metallb.github.io/metallb
-      version: 0.10.2
-    - condition: ingress-nginx.enables
-      name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 4.0.1
+    created: "2022-04-13T13:39:01.842624+05:30"
     description: A Helm chart for tvault configuration
-    digest: 99840646a7d6384b4718042edcb7deb169073653341c482ddce0a807ffa00e4b
+    digest: bf01f85f7d0f2f9bec849b6737d20fcdf4b43f32eb2f5f2b2076646123402ecb
     name: tvault
     type: application
     urls:
@@ -93,7 +126,7 @@ entries:
     version: 1.0.9
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.128698165+05:30"
+    created: "2022-04-13T13:39:01.842097+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -112,7 +145,7 @@ entries:
     version: 1.0.8
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.126060093+05:30"
+    created: "2022-04-13T13:39:01.839149+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -131,7 +164,7 @@ entries:
     version: 1.0.7
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.122611195+05:30"
+    created: "2022-04-13T13:39:01.836134+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -150,7 +183,7 @@ entries:
     version: 1.0.6
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.119337133+05:30"
+    created: "2022-04-13T13:39:01.833441+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -169,7 +202,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.115308612+05:30"
+    created: "2022-04-13T13:39:01.829825+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -188,7 +221,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-03-08T15:57:13.109875477+05:30"
+    created: "2022-04-13T13:39:01.826955+05:30"
     dependencies:
     - condition: metallb.enabled
       name: metallb
@@ -205,4 +238,4 @@ entries:
     urls:
     - tvault-1.0.3.tgz
     version: 1.0.3
-generated: "2022-03-08T15:57:13.10115822+05:30"
+generated: "2022-04-13T13:39:01.806789+05:30"
