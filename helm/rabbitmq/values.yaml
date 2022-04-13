@@ -1,0 +1,10 @@
+
+
+namespace: trilio
+
+
+tvr_workloadmanager_api : trilio/tvr-workloadmgr-api:4.2.20
+tvr_configurator_api : trilio/tvr-configurator-api:3.7.0
+tvr_configurator_ui : trilio/tvr-configurator-ui:1.0.6
+
+tvault_version : "4.2.0"
