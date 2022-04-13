@@ -6,14 +6,23 @@
   - name: add trilio helm repo
     command: helm repo add trilio https://triliodata.github.io/rhv-ops-script/charts/
 
-  - name: repo update  
+  - name: repo update
     shell: helm repo update
 
-  - name: Install triliovault RHV 
-    command: helm install tvr trilio/tvault --create-namespace  --dependency-update   -f /opt/ansible/values.yaml --set namespace=trilio  --timeout 10m --debug
+  - name: Install Ingress RHV
+    command: helm install ingress trilio/ingress --create-namespace  --dependency-update   -f /opt/ansible/values.yaml  --timeout 10m
+
+  - name: Install RabbitMQ    
+    command: helm install rabbitmq trilio/rabbitmq  -f /opt/ansible/values.yaml --set namespace=trilio --timeout 10m 
+
+  - name: Install tvault_wlm
+    command: helm install tvr trilio/tvault   -f /opt/ansible/values.yaml --set namespace=trilio --timeout 10m 
 
   - name: Install mariadb
     command: helm install mariadb trilio/mariadb -n trilio
+
+  - name: Install dashboard
+    command: helm install dashboard trilio/dashboard 
 
   - name: Create a directory /opt/manifest/ca if it does not exist
     ansible.builtin.file:
